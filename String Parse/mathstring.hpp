@@ -8,49 +8,52 @@
 #include <string>
 #include <vector>
 
-#define PI 3.14159265
-
-//complex number class/struct
-
-//phasor sub-class?
-
 class MathString : public CommandString
 {
 protected:
 	std::vector<var> varlist;	//list of variables
-
-	std::vector<std::string> mathoperator;	//list of operators
-	std::vector<std::vector<std::size_t>> locations;	//all locations of the operator
-
-	std::vector<std::vector<std::string>> queue;	//what order to do the operations
+	//list of operators is in string_isolated
+	std::vector<std::vector<std::size_t>> locations;	//all locations of the operator, index matches with string_isolated
+	std::vector<std::vector<std::size_t>> queue;	//what order to do the operations, maybe switch to type: subroutine
 	
 	virtual void PEMDAS();	//order the queue
-	void instances();	//find all operator instances
+	void instances();	//find all operator instances in input
 
 public:
 	MathString();	//creates parse_at commands for all operators
 	~MathString();
-
+	void getinput();
 };
 
 void MathString::PEMDAS()
 {
-	//P
+	//find index of each operator in string_isolate (same index as locations)
+	//parenthesis_pairing() naturally ogranizes in order to solve
 
-	//E
+	std::size_t parenthesis[2] = { this->locate(this->string_isolate, "(")[0], this->locate(this->string_isolate, ")")[0] };
+	std::vector<size_t*> openclose = parenthesis_pairing(this->locations[parenthesis[0]], this->locations[parenthesis[1]]);	//parenthesis must be paired
 
-	//M
+	/*
+	std::size_t exponential = this->locate(this->string_isolate, "^")[0];
 
-	//D
+	std::size_t multiply = this->locate(this->string_isolate, "*")[0];
 
-	//A
+	std::size_t division = this->locate(this->string_isolate, "/")[0];
+	
+	std::size_t add = this->locate(this->string_isolate, "+")[0];
 
-	//S
+	std::size_t subtract = this->locate(this->string_isolate, "-")[0];
+	*/
+
+	//start with numbers, implement variables later
 }
 
 void MathString::instances()
 {
-
+	for (std::size_t i = 0; i < this->string_isolate.size(); i++)
+	{
+		this->locations.push_back(this->locate(string_isolate[i]));
+	}
 }
 
 MathString::MathString()
@@ -87,6 +90,11 @@ MathString::MathString()
 }
 
 MathString::~MathString()
+{
+
+}
+
+void MathString::getinput()
 {
 
 }

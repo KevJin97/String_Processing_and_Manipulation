@@ -27,7 +27,7 @@ std::vector<std::size_t*> parenthesis_pairing(std::vector<std::size_t> open, std
 		used[index] = false;
 	}
 
-	if (open.size() == closed.size())
+	if (open.size() == closed.size() && open.size() != 0)
 	{
 		std::size_t index = 0;
 		while(index < open.size())
@@ -46,12 +46,12 @@ std::vector<std::size_t*> parenthesis_pairing(std::vector<std::size_t> open, std
 
 			paired.push_back(openclose);
 		}
+		delete[] used;
 	}
 	else
 	{
 		//parenthesis aren't equal
 	}
-	delete[] used;
 	return paired;
 }
 
@@ -60,20 +60,21 @@ struct Method	//contains instruction set
 
 };
 
-//template<typename T>
+template <typename T>
 class Subroutine
 {
 private:
 	std::string functionname;
+	std::vector <var> variable_list;
 	std::vector<std::string> inputs;
-	std::vector<std::string> basefunction_list;
+	std::vector<T> basefunction;
 	std::vector<std::string> queue;
 
 public:
 	Subroutine();
 	~Subroutine();
 
-	void queueing();
+	//queue
 	//context
 	//base functions
 	//unsure, ask

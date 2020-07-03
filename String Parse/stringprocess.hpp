@@ -34,6 +34,7 @@ public:
 	void remove_ignored(std::string removefromignored);	//remove a given string from ignored list
 	void parse_at(std::string isolating);	//isolate inputted string when parsing
 	std::vector<std::size_t> locate(std::string find);	//locate instances of specfic string in parsed
+	std::vector<std::size_t> locate(std::vector<std::string> beingsearched, std::string searchfor);	//locate string in the inputted array
 	std::vector<std::string> sublist(std::vector<std::size_t> indices);	//creates a list of indices inputted
 	std::vector<std::string> sublist(std::size_t start, std::size_t end);	//creates list from indices start to end. Reverse if start > end. end maxed at size()
 	std::vector<std::string> sublist(std::size_t start);	//creates a list from start to end
@@ -455,6 +456,19 @@ std::vector<std::size_t> CommandString::locate(std::string find)
 	else
 	{
 		//error
+	}
+	return locations;
+}
+
+std::vector<std::size_t> CommandString::locate(std::vector<std::string> beingsearched, std::string searchfor)
+{
+	std::vector<std::size_t> locations;
+	for (std::size_t index = 0; index < beingsearched.size(); index++)
+	{
+		if (beingsearched[index].compare(searchfor) == 0)
+		{
+			locations.push_back(index);
+		}
 	}
 	return locations;
 }
