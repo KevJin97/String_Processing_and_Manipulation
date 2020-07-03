@@ -90,14 +90,6 @@ std::vector<std::string> CommandString::parse(std::string string2parse)
 		}
 	} while (index < string2parse.size());
 
-	if (this->string_isolate.size())
-	{
-		for (std::size_t index = 0; index < this->string_isolate.size(); index++)
-		{
-			this->isolate(this->string_isolate[index]);
-		}
-	}
-
 	return returnstring;
 }
 
@@ -373,6 +365,14 @@ void CommandString::getinput()
 	std::getline(std::cin, input);
 
 	this->parsed = this->parse(input);
+	
+	if (this->string_isolate.size())
+	{
+		for (std::size_t index = 0; index < this->string_isolate.size(); index++)
+		{
+			this->isolate(this->string_isolate[index]);
+		}
+	}
 }
 
 void CommandString::remove(std::string string2remove)
@@ -431,7 +431,6 @@ void CommandString::parse_at(std::string isolating)	//possibly implement parsing
 	if (!this->checkisolated(isolating))
 	{
 		this->string_isolate.push_back(isolating);
-		this->isolate(isolating);
 	}
 	else
 	{
