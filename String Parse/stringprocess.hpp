@@ -19,10 +19,11 @@ protected:
 public:
 	CommandString();
 	CommandString(std::string string2parse);	//add string2parse and parse
-	CommandString(std::vector<std::string> list);	//add list directly into parse
+	CommandString(std::vector<std::string> list);	//add list directly into parsed
 	~CommandString();
 
 	void ignore(std::string snub);	//ignore inputted string when creating parsed list
+	void ignore(std::vector<std::string> list);	//ignore entire list when creating parsed list
 	void filter(std::string remove);	//remove all instances of the character sequence in strings
 	std::vector<std::string> return_parsed();	//return parsed list
 	std::vector<std::string> ignored();	//return list of ignored strings
@@ -31,9 +32,12 @@ public:
 	void isolate(std::string isolatestring);	//parse inputted string into its own array space
 	void getinput();	//duh (and then sorts into parsed form)
 	void remove(std::string string2remove);	//remove a string from parsed
+	void remove(std::vector<std::string> list);	//remove from a list of strings from parsed
 	void push_back(std::string string2add);	//push_back string after parsing
 	void remove_ignored(std::string removefromignored);	//remove a given string from ignored list
+	void remove_isolated(std::string removefromisolated);	//remove a given string from isolated list
 	void parse_at(std::string isolating);	//isolate inputted string when parsing
+	void parse_at(std::vector<std::string> list);	//parse at every string on list
 	std::vector<std::size_t> locate(std::string find);	//locate instances of specfic string in parsed
 	std::vector<std::size_t> locate(std::vector<std::string> beingsearched, std::string searchfor);	//locate string in the inputted array
 	std::vector<std::string> sublist(std::vector<std::size_t> indices);	//creates a list of indices inputted
@@ -182,6 +186,14 @@ void CommandString::ignore(std::string snub)	//possibly implement parsing
 	else
 	{
 		//say it already exists on the ignored list
+	}
+}
+
+void CommandString::ignore(std::vector<std::string> list)
+{
+	for (std::size_t i = 0; i < list.size(); i++)
+	{
+		this->ignore(list[i]);
 	}
 }
 
@@ -399,6 +411,14 @@ void CommandString::remove(std::string string2remove)
 	}
 }
 
+void CommandString::remove(std::vector<std::string> list)
+{
+	for (std::size_t i = 0; i < list.size(); i++)
+	{
+		this->remove(list[i]);
+	}
+}
+
 void CommandString::push_back(std::string string2add)
 {
 	if (!this->checkignored(string2add))
@@ -432,6 +452,27 @@ void CommandString::remove_ignored(std::string removefromignored)	//maybe implem
 	}
 }
 
+void CommandString::remove_isolated(std::string removefromisolated)	//maybe implement parsing later
+{
+	if (this->string_isolate.size())
+	{
+		std::vector<std::string> newisolatedlist;
+
+		std::size_t index = 0;
+		while (index < this->string_isolate.size() && this->string_isolate[index].compare(removefromisolated) != 0)
+		{
+			newisolatedlist.push_back(this->string_isolate[index]);
+			index++;
+		}
+		this->string_isolate.clear();
+		this->string_isolate = newisolatedlist;
+	}
+	else
+	{
+		//error
+	}
+}
+
 void CommandString::parse_at(std::string isolating)	//possibly implement parsing?
 {
 	if (!this->checkisolated(isolating))
@@ -441,6 +482,14 @@ void CommandString::parse_at(std::string isolating)	//possibly implement parsing
 	else
 	{
 		//warning
+	}
+}
+
+void CommandString::parse_at(std::vector<std::string> list)
+{
+	for (std::size_t i = 0; i < list.size(); i++)
+	{
+		this->parse_at(list[i]);
 	}
 }
 

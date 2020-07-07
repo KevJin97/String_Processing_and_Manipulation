@@ -160,7 +160,7 @@ void Method::operator=(Method function)
 	this->name = function.name;
 	this->input = function.input;
 	this->syntax = function.syntax;
-	this->functiondef = function.syntax;
+	this->functiondef = function.functiondef;
 }
 
 
@@ -540,7 +540,9 @@ namespace basefunctions
 		}
 		else
 		{
-			//function doesn't exist
+			base.name = "NOFUNCTION";
+			base.syntax = { "NOFUNCTION" };
+			base.functiondef = { "NOFUNCTION" };
 		}
 		return base;
 	}
@@ -552,6 +554,7 @@ class Subroutine
 protected:
 	Method function;
 	std::vector<std::string> operator_list;
+	std::vector<std::string> function_list;
 
 public:
 	Subroutine();
@@ -562,6 +565,7 @@ public:
 	void set_operator_list(std::vector<std::string> list);
 	var solve();
 	var solve(CommandString command);
+	bool checkfunction(Method function);	//check if defined function could be confused with a predefined function
 	
 	void operator=(Subroutine subroutine);
 
@@ -587,46 +591,54 @@ Subroutine::Subroutine()
 		"/", 
 		"*", 
 		"^", 
-		"exp", 
-		"cos", 
-		"sin", 
-		"tan", 
-		"log", 
-		"ln", 
-		"asin", 
-		"acos", 
-		"atan", 
-		"root", 
+		"=",
 		")",
 		"("
 	};
+	this->function_list =
+	{
+		"exp",
+		"cos",
+		"sin",
+		"tan",
+		"log",
+		"ln",
+		"asin",
+		"acos",
+		"atan",
+		"root",
+	};
 }
 
-void Subroutine::define(std::string functionname)
+void Subroutine::define(std::string functionname)	//issues come up when functionname contains an operator. resolve later
 {
 	CommandString syntax;
+	Method function;
+	syntax.parse_at(this->operator_list);
 
 	function.name = functionname;
 
 	std::cout << "define syntax: ";
-	syntax.getinput();	//define syntax
+	syntax.getinput();	//define syntax, create error for when syntax definition doesn't have function name
 	function.syntax = syntax.return_parsed();
 	
-	for (std::size_t i = 0; i < syntax.size(); i++)	//filter out functionname
+	syntax.isolate(functionname);
+	syntax.remove(functionname);	//filter functionname
+	syntax.remove(this->operator_list);	//filter all operators
+
+	for (std::size_t i = 0; i < syntax.size(); i++)
 	{
-		if (syntax[i].compare(functionname) != 0)
+		if (function.input.size() == 0)
+		{
+			function.input.push_back(syntax[i]);
+		}
+		else
 		{
 			for (std::size_t j = 0; j < function.input.size(); j++)	//make sure there's no duplicates
 			{
 				if (function.input[j].varname.compare(syntax[i]) != 0)
 				{
-					for (std::size_t k = 1; k < this->operator_list.size(); k++)	//make sure it's not an operator
-					{
-						if (this->operator_list[k].compare(syntax[i]) != 0)
-						{
-							function.input.push_back(syntax[i]);
-						}
-					}
+					function.input.push_back(syntax[i]);
 				}
 			}
 		}
@@ -634,6 +646,15 @@ void Subroutine::define(std::string functionname)
 	std::cout << "function definition: ";
 	syntax.getinput();	//for functiondef
 	function.functiondef = syntax.return_parsed();	//work on string parser?
+
+	if (!this->checkfunction(function))
+	{
+		this->function = function;
+	}
+	else
+	{
+		//error, function may already exist
+	}
 }
 
 Method Subroutine::return_method()
@@ -662,6 +683,19 @@ var Subroutine::solve(CommandString command)
 {
 	var ans;
 	return ans;
+}
+
+bool Subroutine::checkfunction(Method function)
+{
+	Method base = this->basefunction(function.name, function.input);
+	if (base.name == "NOFUNCTION")	//false if function doesn't exist
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
 }
 
 void Subroutine::operator=(Subroutine subroutine)
