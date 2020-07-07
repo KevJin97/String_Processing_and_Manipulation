@@ -4,17 +4,104 @@
 #include <cmath>
 #include <string>
 #include <vector>
-
-struct Datatype
-{
-	std::vector<std::string> type;
-};
+#include "stringprocess.hpp"
 
 struct var
 {
 	std::string varname;
+	double value;
+	std::string type;
 	bool unknown;
+
+	var();
+	var(std::string data);
+	var(double value);
+	void operator=(var input);
+	void operator=(std::string data);
 };
+
+var::var()
+{ 
+	this->value = 0;
+	this->unknown = true;
+}
+
+var::var(std::string data)
+{
+	bool isnumber;
+	for (std::size_t i = 0; i < data.size(); i++)
+	{
+		if (('0' <= data[i]) && (data[i] <= '9'))
+		{
+			isnumber = true;
+		}
+		else
+		{
+			isnumber = false;
+			break;
+		}
+	}
+	if (!isnumber)
+	{
+		this->varname = data;
+		this->value = 0;	//unusuable if unknown false
+		this->type = "double";
+		this->unknown = false;
+	}
+	else
+	{
+		this->value = std::stod(data);
+		this->type = "double";
+		this->unknown = true;
+	}
+}
+
+var::var(double value)
+{
+	this->varname = "num";
+	this->value = value;
+	this->type = "double";
+	this->unknown = true;
+}
+
+void var::operator=(var input)
+{
+	this->varname = input.varname;
+	this->value = input.value;
+	this->type = input.type;
+	this->unknown = input.unknown;
+}
+
+void var::operator=(std::string data)
+{
+	bool isnumber;
+	for (std::size_t i = 0; i < data.size(); i++)
+	{
+		if (('0' <= data[i]) && (data[i] <= '9'))
+		{
+			isnumber = true;
+		}
+		else
+		{
+			isnumber = false;
+			break;
+		}
+	}
+	if (!isnumber)
+	{
+		this->varname = data;
+		this->value = 0;	//unusuable if unknown false
+		this->type = "double";
+		this->unknown = false;
+	}
+	else
+	{
+		this->value = std::stod(data);
+		this->type = "double";
+		this->unknown = true;
+	}
+}
+
 
 std::vector<std::size_t*> parenthesis_pairing(std::vector<std::size_t> open, std::vector<std::size_t> closed)	//read order of parenthesis, make sure to erase data later
 {
@@ -55,99 +142,531 @@ std::vector<std::size_t*> parenthesis_pairing(std::vector<std::size_t> open, std
 	return paired;
 }
 
+
 struct Method	//contains instruction set
 {
-
+	std::string name;
+	std::vector<var> input;
+	std::vector<std::string> syntax;
+	std::vector<std::string> functiondef;
+	var output;
+	
+	Method() {}
+	void operator=(Method function);
 };
 
-//template <typename T>
-class Subroutine
+void Method::operator=(Method function)
 {
-private:
-	std::string functionname;
-	std::vector <var> variable_list;
-	std::vector<std::string> inputs;
-	//std::vector<T> basefunction;
-	std::vector<std::string> queue;
-
-public:
-	Subroutine();
-	~Subroutine();
-
-	//queue
-	//context
-	//base functions
-	//unsure, ask
-	//queueing
-};
+	this->name = function.name;
+	this->input = function.input;
+	this->syntax = function.syntax;
+	this->functiondef = function.syntax;
+}
 
 
-
-
-
-
-
-
-//creating functions
-/*
-
-if (commandstring[0].compare("define") == 0)
+Method parenthesis(CommandString parsed, std::size_t open, std::size_t closed)	//don't access input
 {
-	std::vector<std::string> functionname;
-	std::vector<std::string> inputs;
-		
-	std::vector<std::size_t> strtparent = commandstring.locate("(");
-	std::vector<std::size_t> endparent = commandstring.locate(")");
-	std::vector<std::size_t> comma = commandstring.locate(",");
-	//progam safeties later
-
-	functionname = commandstring.sublist(1, strtparent[0] -  1);
-
-	if (strtparent[0] + 1 == endparent[0])	//no inputs
+	Method parenthesis;
+	parenthesis.name = "()";
+	
+	for (std::size_t i = open + 1; i < closed; i++)
 	{
-		std::cout << std::endl;
-		std::cout << "Function Name: " << commandstring.back2string(functionname) << std::endl;
-		std::cout << "Input(s): NA" << std::endl;
-		std::cout << "Num of Inputs: " << inputs.size() << std::endl;
+		parenthesis.syntax.push_back(parsed[i]);
+		parenthesis.functiondef.push_back(parsed[i]);
 	}
-	else if (strtparent[0] + 1 < endparent[0])	//inputs, rewrite to automatically deal with commas in between parenthesis parameters, error if inputs.size() != comma.size() + 1
-	{
-		if (comma.size() != 0)
-		{
-			for (std::size_t i = 0, start = strtparent[0] + 1; start < endparent[0]; start++)
-			{
-				if (comma[i] == start)
-				{
-					start++;
-				}
-				inputs.push_back(commandstring[start]);
-			}
-				std::cout << std::endl;
-				std::cout << "Function Name: " << commandstring.back2string(functionname) << std::endl;
-				std::cout << "Input(s): " << commandstring.back2string(inputs) << std::endl;
-				std::cout << "Num of Inputs: " << inputs.size() << std::endl;
-			}
-			else
-			{
-				for (std::size_t start = strtparent[0] + 1; start < endparent[0]; start++)
-				{
-					inputs.push_back(commandstring[start]);
-				}
+	return parenthesis;
+}
 
-				std::cout << std::endl;
-				std::cout << "Function Name: " << commandstring.back2string(functionname) << std::endl;
-				std::cout << "Input(s): " << commandstring.back2string(inputs) << std::endl;
-				std::cout << "Num of Inputs: " << inputs.size() << std::endl;
-			}
-		}
-		else if (strtparent[0] + 1 > endparent[0])
+
+namespace basefunctions
+{
+	//basic operators
+	var power(var input1, var input2)
+	{
+		var ans("ans");
+
+		if ((input1.unknown == true) && (input2.unknown == true))
 		{
-			//error in syntax
+			ans.value = pow(input1.value, input2.value);
+			ans.unknown = true;
+		}
+		return ans;
+	}
+
+	var multiply(var input1, var input2)
+	{
+		var ans("ans");
+
+		if ((input1.unknown == true) && (input2.unknown == true))
+		{
+			ans.value = input1.value * input2.value;
+			ans.unknown = true;
+		}
+		return ans;
+	}
+
+	var divide(var input1, var input2)
+	{
+		var ans("ans");
+
+		if ((input1.unknown == true) && (input2.unknown == true))
+		{
+			ans.value = input1.value / input2.value;
+			ans.unknown = true;
+		}
+		return ans;
+	}
+
+	var add(var input1, var input2)
+	{
+		var ans("ans");
+
+		if ((input1.unknown == true) && (input2.unknown == true))
+		{
+			ans.value = input1.value + input2.value;
+			ans.unknown = true;
+		}
+		return ans;
+	}
+
+	var subtract(var input1, var input2)
+	{
+		var ans("ans");
+
+		if ((input1.unknown == true) && (input2.unknown == true))
+		{
+			ans.value = input1.value - input2.value;
+			ans.unknown = true;
+		}
+		return ans;
+	}
+
+	var negative(var input)
+	{
+		var ans("ans");
+
+		if (input.unknown == true)
+		{
+			ans.value = -input.value;
+			ans.unknown = true;
+		}
+		return ans;
+	}
+
+	//functions
+	var exponential(var input)
+	{
+		var ans("ans");
+
+		if (input.unknown == true)
+		{
+			ans.value = exp(input.value);
+			ans.unknown = true;
+		}
+		return ans;
+	}
+
+	var cosine(var input)
+	{
+		var ans("ans");
+
+		if (input.unknown == true)
+		{
+			ans.value = cos(input.value);
+			ans.unknown = true;
+		}
+		return ans;
+	}
+
+	var sine(var input)
+	{
+		var ans("ans");
+
+		if (input.unknown == true)
+		{
+			ans.value = sin(input.value);
+			ans.unknown = true;
+		}
+		return ans;
+	}
+
+	var tangent(var input)
+	{
+		var ans("ans");
+
+		if (input.unknown == true)
+		{
+			ans.value = tan(input.value);
+			ans.unknown = true;
+		}
+		return ans;
+	}
+
+	var arccosine(var input)
+	{
+		var ans("ans");
+
+		if (input.unknown == true)
+		{
+			ans.value = acos(input.value);
+			ans.unknown = true;
+		}
+		return ans;
+	}
+
+	var arcsine(var input)
+	{
+		var ans("ans");
+
+		if (input.unknown == true)
+		{
+			ans.value = asin(input.value);
+			ans.unknown = true;
+		}
+		return ans;
+	}
+
+	var arctangent(var input)
+	{
+		var ans("ans");
+
+		if (input.unknown == true)
+		{
+			ans.value = atan(input.value);
+			ans.unknown = true;
+		}
+		return ans;
+	}
+
+	var root(var base, var input)
+	{
+		var ans("ans");
+
+		if ((base.unknown == true) && (input.unknown == true))
+		{
+			ans.value = pow(input.value, 1 / base.value);
+			ans.unknown = true;
+		}
+		return ans;
+	}
+
+	var root(var input)	//default 2
+	{
+		return root(2, input);
+	}
+
+	var natural_logarithm(var input)
+	{
+		var ans("ans");
+
+		if (input.unknown == true)
+		{
+			ans.value = log(input.value);
+			ans.unknown = true;
+		}
+		return ans;
+	}
+
+	var logarithm(var base, var input)
+	{
+		var ans("ans");
+
+		if ((base.unknown == true) && (input.unknown == true))
+		{
+			ans.value = log(input.value) / log(base.value);
+			ans.unknown = true;
+		}
+		return ans;
+	}
+
+	var logarithm(var input)	//default 10
+	{
+		var ans("ans");
+
+		if (input.unknown == true)
+		{
+			ans.value = log(input.value) / log(10);
+			ans.unknown = true;
+		}
+		return ans;
+	}
+
+	Method function(std::string name, std::vector<var> inputs)
+	{
+		Method base;
+		if ((name.compare("^") == 0) && (inputs.size() == 2))
+		{
+			base.name = name;
+			base.input = inputs;
+			base.syntax = { inputs[0].varname, "^", inputs[1].varname };
+			base.functiondef = { inputs[0].varname, "^", inputs[1].varname };
+			base.output = power(inputs[0], inputs[1]);
+		}
+		else if ((name.compare("*") == 0) && (inputs.size() == 2))
+		{
+			base.name = name;
+			base.input = inputs;
+			base.syntax = { inputs[0].varname, "*", inputs[1].varname };
+			base.functiondef = { inputs[0].varname, "*", inputs[1].varname };
+			base.output = multiply(inputs[0], inputs[1]);
+		}
+		else if ((name.compare("/") == 0) && (inputs.size() == 2))
+		{
+			base.name = name;
+			base.input = inputs;
+			base.syntax = { inputs[0].varname, "/", inputs[1].varname };
+			base.functiondef = { inputs[0].varname, "/", inputs[1].varname };
+			base.output = divide(inputs[0], inputs[1]);
+		}
+		else if ((name.compare("+") == 0) && (inputs.size() == 2))
+		{
+			base.name = name;
+			base.input = inputs;
+			base.syntax = { inputs[0].varname, "+", inputs[1].varname };
+			base.functiondef = { inputs[0].varname, "+", inputs[1].varname };
+			base.output = add(inputs[0], inputs[1]);
+		}
+		else if ((name.compare("-") == 0) && (inputs.size() == 2))
+		{
+			base.name = name;
+			base.input = inputs;
+			base.syntax = { inputs[0].varname, "-", inputs[1].varname };
+			base.functiondef = { inputs[0].varname, "-", inputs[1].varname };
+			base.output = subtract(inputs[0], inputs[1]);
+		}
+		else if ((name.compare("-") == 0) && (inputs.size() == 1))
+		{
+			base.name = name;
+			base.input = inputs;
+			base.syntax = { "-", inputs[0].varname };
+			base.functiondef = { "-", inputs[0].varname };
+			base.output = negative(inputs[0]);
+		}
+		else if ((name.compare("exp") == 0) && (inputs.size() == 1))
+		{
+			base.name = name;
+			base.input = inputs;
+			base.syntax = { "exp", "(", inputs[0].varname, ")" };
+			base.functiondef = { "exp", "(", inputs[0].varname, ")" };
+			base.output = exponential(inputs[0]);
+		}
+		else if ((name.compare("cos") == 0) && (inputs.size() == 1))
+		{
+			base.name = name;
+			base.input = inputs;
+			base.syntax = { "cos", "(", inputs[0].varname, ")" };
+			base.functiondef = { "cos", "(", inputs[0].varname, ")" };
+			base.output = cosine(inputs[0]);
+		}
+		else if ((name.compare("sin") == 0) && (inputs.size() == 1))
+		{
+			base.name = name;
+			base.input = inputs;
+			base.syntax = { "sin", "(", inputs[0].varname, ")" };
+			base.functiondef = { "sin", "(", inputs[0].varname, ")" };
+			base.output = sine(inputs[0]);
+		}
+		else if ((name.compare("tan") == 0) && (inputs.size() == 1))
+		{
+			base.name = name;
+			base.input = inputs;
+			base.syntax = { "tan", "(", inputs[0].varname, ")" };
+			base.functiondef = { "tan", "(", inputs[0].varname, ")" };
+			base.output = tangent(inputs[0]);
+		}
+		else if ((name.compare("acos") == 0) && (inputs.size() == 1))
+		{
+			base.name = name;
+			base.input = inputs;
+			base.syntax = { "acos", "(", inputs[0].varname, ")" };
+			base.functiondef = { "acos", "(", inputs[0].varname, ")" };
+			base.output = arccosine(inputs[0]);
+		}
+		else if ((name.compare("asin") == 0) && (inputs.size() == 1))
+		{
+			base.name = name;
+			base.input = inputs;
+			base.syntax = { "asin", "(", inputs[0].varname, ")" };
+			base.functiondef = { "asin", "(", inputs[0].varname, ")" };
+			base.output = arcsine(inputs[0]);
+		}
+		else if ((name.compare("atan") == 0) && (inputs.size() == 1))
+		{
+			base.name = name;
+			base.input = inputs;
+			base.syntax = { "atan", "(", inputs[0].varname, ")" };
+			base.functiondef = { "atan", "(", inputs[0].varname, ")" };
+			base.output = arctangent(inputs[0]);
+		}
+		else if ((name.compare("root") == 0) && (inputs.size() == 1))
+		{
+			base.name = name;
+			base.input = inputs;
+			base.syntax = { "root", "(", inputs[0].varname, ")" };
+			base.functiondef = { "root", "(", inputs[0].varname, ")" };
+			base.output = root(inputs[0]);
+		}
+		else if ((name.compare("root") == 0) && (inputs.size() == 2))
+		{
+			base.name = name;
+			base.input = inputs;
+			base.syntax = { "root", inputs[0].varname, "(", inputs[1].varname, ")" };
+			base.functiondef = { "root", inputs[0].varname, "(", inputs[1].varname, ")" };
+			base.output = root(inputs[0], inputs[1]);
+		}
+		else if ((name.compare("log") == 0) && (inputs.size() == 1))
+		{
+			base.name = name;
+			base.input = inputs;
+			base.syntax = { "log", "(", inputs[0].varname, ")" };
+			base.functiondef = { "log", "(", inputs[0].varname, ")" };
+			base.output = logarithm(inputs[0]);
+		}
+		else if ((name.compare("log") == 0) && (inputs.size() == 2))
+		{
+			base.name = name;
+			base.input = inputs;
+			base.syntax = { "log", inputs[0].varname, "(", inputs[1].varname, ")" };
+			base.functiondef = { "log", inputs[0].varname, "(", inputs[1].varname, ")" };
+			base.output = logarithm(inputs[0], inputs[1]);
+		}
+		else if ((name.compare("ln") == 0) && (inputs.size() == 1))
+		{
+			base.name = name;
+			base.input = inputs;
+			base.syntax = { "ln", "(", inputs[0].varname, ")" };
+			base.functiondef = { "ln", "(", inputs[0].varname, ")" };
+			base.output = logarithm(inputs[0]);
 		}
 		else
 		{
-
+			//function doesn't exist
 		}
-*/
+		return base;
+	}
+}
+
+
+class Subroutine
+{
+protected:
+	Method function;
+	std::vector<std::string> operator_list;
+
+public:
+	Subroutine();
+
+	void define(std::string functionname);	//can't handle multiple line commands yet
+	Method return_method();
+	Method basefunction(std::string functionname, std::vector<var> inputs);
+	void set_operator_list(std::vector<std::string> list);
+	var solve();
+	var solve(CommandString command);
+	
+	void operator=(Subroutine subroutine);
+
+	//testcode
+	void test()
+	{
+		CommandString check;
+		std::cout << std::endl;
+		std::cout << "FUNCTION (method)" << std::endl;
+		std::cout << "Function name: " << function.name << std::endl;
+		std::cout << "Input(s): "; for (std::size_t i = 0; i < function.input.size(); i++) { std::cout << function.input[i].varname << " "; } std::cout << std::endl;
+		std::cout << "Syntax: " << check.back2string(function.syntax) << std::endl;
+		std::cout << "Function Definition: " << check.back2string(function.functiondef) << std::endl;
+	}
+};
+
+Subroutine::Subroutine()
+{
+	this->operator_list = 
+	{
+		"-", 
+		"+", 
+		"/", 
+		"*", 
+		"^", 
+		"exp", 
+		"cos", 
+		"sin", 
+		"tan", 
+		"log", 
+		"ln", 
+		"asin", 
+		"acos", 
+		"atan", 
+		"root", 
+		")",
+		"("
+	};
+}
+
+void Subroutine::define(std::string functionname)
+{
+	CommandString syntax;
+
+	function.name = functionname;
+
+	std::cout << "define syntax: ";
+	syntax.getinput();	//define syntax
+	function.syntax = syntax.return_parsed();
+	
+	for (std::size_t i = 0; i < syntax.size(); i++)	//filter out functionname
+	{
+		if (syntax[i].compare(functionname) != 0)
+		{
+			for (std::size_t j = 0; j < function.input.size(); j++)	//make sure there's no duplicates
+			{
+				if (function.input[j].varname.compare(syntax[i]) != 0)
+				{
+					for (std::size_t k = 1; k < this->operator_list.size(); k++)	//make sure it's not an operator
+					{
+						if (this->operator_list[k].compare(syntax[i]) != 0)
+						{
+							function.input.push_back(syntax[i]);
+						}
+					}
+				}
+			}
+		}
+	}
+	std::cout << "function definition: ";
+	syntax.getinput();	//for functiondef
+	function.functiondef = syntax.return_parsed();	//work on string parser?
+}
+
+Method Subroutine::return_method()
+{
+	return this->function;
+}
+
+Method Subroutine::basefunction(std::string functionname, std::vector<var> inputs)
+{
+	Method function = basefunctions::function(functionname, inputs);
+	return function;
+}
+
+void Subroutine::set_operator_list(std::vector<std::string> list)
+{
+	operator_list = list;
+}
+
+var Subroutine::solve()
+{
+	var ans;
+	return ans;
+}
+
+var Subroutine::solve(CommandString command)
+{
+	var ans;
+	return ans;
+}
+
+void Subroutine::operator=(Subroutine subroutine)
+{
+	this->function = subroutine.return_method();
+}
 
 #endif

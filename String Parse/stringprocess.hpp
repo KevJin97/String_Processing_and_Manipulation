@@ -18,7 +18,8 @@ protected:
 
 public:
 	CommandString();
-	CommandString(std::string string2parse);	//add string2parse into parsed
+	CommandString(std::string string2parse);	//add string2parse and parse
+	CommandString(std::vector<std::string> list);	//add list directly into parse
 	~CommandString();
 
 	void ignore(std::string snub);	//ignore inputted string when creating parsed list
@@ -39,7 +40,7 @@ public:
 	std::vector<std::string> sublist(std::size_t start, std::size_t end);	//creates list from indices start to end. Reverse if start > end. end maxed at size()
 	std::vector<std::string> sublist(std::size_t start);	//creates a list from start to end
 	std::string back2string();	//output string with whitespaces
-	std::string back2string(std::vector<std::string> list);	//output list with whitespaces
+	std::string back2string(CommandString list);	//output list with whitespaces
 	void merge(std::size_t begin, std::size_t end);	//combine the elements begin through end into one arrayspace;
 	void push_to(std::string newelement, std::size_t index);	//at position of index, add the new string element
 
@@ -159,6 +160,11 @@ CommandString::CommandString()
 CommandString::CommandString(std::string string2parse)
 {
 	this->parsed = this->parse(string2parse);
+}
+
+CommandString::CommandString(std::vector<std::string> list)
+{
+	this->parsed = list;
 }
 
 CommandString::~CommandString()
@@ -596,49 +602,9 @@ std::string CommandString::back2string()
 	return converted;
 }
 
-std::string CommandString::back2string(std::vector<std::string> list)
+std::string CommandString::back2string(CommandString list)
 {
-	std::string converted;
-
-	if (this->size())
-	{
-		//total character space = sum of all string.size() + list.size()	includes NULL
-		std::size_t charspace = 0;
-		for (std::size_t i = 0; i < list.size(); i++)
-		{
-			charspace += list[i].size();
-		}
-		charspace += list.size();
-
-		char* string = new char[charspace];
-		string[charspace - 1] = NULL;
-		charspace = 0;
-
-		for (std::size_t i = 0; i < list[0].size(); i++)	//copy first arrayspace
-		{
-			string[charspace] = list[0][i];
-			charspace++;
-		}
-		for (std::size_t index = 1; index < list.size(); index++)	//add a space then copy the arrayspace
-		{
-			string[charspace] = ' ';
-			charspace++;
-			for (std::size_t i = 0; i < list[index].size(); i++)
-			{
-				string[charspace] = list[index][i];
-				charspace++;
-			}
-		}
-
-		converted = string;
-		delete[] string;
-	}
-	else
-	{
-		//error
-	}
-
-	return converted;
+	return list.back2string();
 }
 
 void CommandString::merge(std::size_t begin, std::size_t end)

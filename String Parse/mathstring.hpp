@@ -11,25 +11,17 @@
 class MathString : public CommandString
 {
 protected:
-	std::vector<std::vector<std::size_t>> location;
+	std::vector<std::vector<std::size_t>> locations;	//locations of parsed operators in parsed string
+	std::vector<std::string> queue;	//order commands
 
 public:
 	MathString();
 	~MathString() {}
 
 	void setlocations();
+	//void PEMDAS();	
 
-	//test code
-	void test()
-	{
-		setlocations();
-		
-		for (std::size_t i = 0; i < location.size(); i++)
-		{
-			for (std::size_t j = 0; j < location[i].size(); j++)
-			std::cout << location[i][j] << std::endl;
-		}
-	}
+	//base functions
 };
 
 MathString::MathString()
@@ -44,11 +36,15 @@ MathString::MathString()
 	this->parse_at("*");
 	this->parse_at("/");
 	this->parse_at("^");
+	this->parse_at("!");
 	this->parse_at("=");
 	this->parse_at("<");
 	this->parse_at(">");
+	this->parse_at("==");
 	this->parse_at("<=");
 	this->parse_at(">=");
+	//this->parse_at("&&");
+	//this->parse_at("||");
 	this->parse_at("[");
 	this->parse_at("]");
 
@@ -72,8 +68,14 @@ void MathString::setlocations()
 	for (std::size_t isolateindex = 0; isolateindex < this->string_isolate.size(); isolateindex++)
 	{
 		foundat = this->locate(string_isolate[isolateindex]);
-		location.push_back(foundat);
+		locations.push_back(foundat);
 	}
+	//sort locations? check if it's necesessary
 }
+/*
+void MathString::PEMDAS()
+{
 
+}
+*/
 #endif

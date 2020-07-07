@@ -1,17 +1,22 @@
 #include <iostream>
+#include <string>
 #include "stringprocess.hpp"
 #include "mathstring.hpp"
 #include "functiondeveloper.hpp"
 
 int main()
 {
-	CommandString commandstring;
+	CommandString inputmanage;
+	Subroutine test;
 	
-	MathString test;
 	for (;;)
 	{
-		test.getinput();
-		test.test();
+		inputmanage.getinput();
+		if (inputmanage[0].compare("define") == 0)
+		{
+			test.define(inputmanage[1]);
+			test.test();
+		}
 	}
 
 	return 0;
