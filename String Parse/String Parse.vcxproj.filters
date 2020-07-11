@@ -29,5 +29,11 @@
     <ClInclude Include="functiondeveloper.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FileString.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AutoString.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

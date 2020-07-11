@@ -150,6 +150,8 @@
     <ClCompile Include="String Parse.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AutoString.hpp" />
+    <ClInclude Include="FileString.hpp" />
     <ClInclude Include="functiondeveloper.hpp" />
     <ClInclude Include="mathstring.hpp" />
     <ClInclude Include="stringprocess.hpp" />
