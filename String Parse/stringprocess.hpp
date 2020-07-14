@@ -47,6 +47,9 @@ public:
 	std::string back2string(CommandString list);	//output list with whitespaces
 	void merge(std::size_t begin, std::size_t end);	//combine the elements begin through end into one arrayspace;
 	void push_to(std::string newelement, std::size_t index);	//at position of index, add the new string element
+	void reset();	//delete string_isolate and string_ignore
+	void reset_isolate();	//delete string_isolate
+	void reset_ignore();	//delete string_ignore
 
 	void operator=(std::string string2parse);	//inputted string sorted based off parameters and placed in parsed
 	void operator=(CommandString input);	//set CommandStrings equal to each other
@@ -109,18 +112,12 @@ bool CommandString::checkignored(std::string check)
 	}
 	else
 	{
-		while (index < check.size())
+		for (; index < this->string_ignore.size(); index++)
 		{
-			std::size_t ignoredindex = 0;
-
-			while (this->string_ignore[index][ignoredindex] == check[ignoredindex])
+			if (this->string_ignore[index].compare(check) == 0)
 			{
-				if (this->string_ignore[index].compare(check) == 0)
-				{
-					existsonlist = true;
-				}
+				return true;
 			}
-			index++;
 		}
 
 		return existsonlist;
@@ -132,24 +129,18 @@ bool CommandString::checkisolated(std::string check)
 	bool existsonlist = false;
 	std::size_t index = 0;
 
-	if (index == string_isolate.size())
+	if (index == this->string_isolate.size())
 	{
 		return existsonlist;
 	}
 	else
 	{
-		while (index < check.size())
+		for (; index < this->string_isolate.size(); index++)
 		{
-			std::size_t ignoredindex = 0;
-
-			while (this->string_isolate[index][ignoredindex] == check[ignoredindex])
+			if (this->string_isolate[index].compare(check) == 0)
 			{
-				if (this->string_isolate[index].compare(check) == 0)
-				{
-					existsonlist = true;
-				}
+				return true;
 			}
-			index++;
 		}
 
 		return existsonlist;
@@ -718,6 +709,22 @@ void CommandString::push_to(std::string newelement, std::size_t index)
 		this->parsed.clear();
 		this->parsed = hold;
 	}
+}
+
+void CommandString::reset()
+{
+	this->string_ignore.clear();
+	this->string_isolate.clear();
+}
+
+void CommandString::reset_isolate()
+{
+	this->string_isolate.clear();
+}
+
+void CommandString::reset_ignore()
+{
+	this->string_ignore.clear();
 }
 
 void CommandString::operator=(std::string string2parse)

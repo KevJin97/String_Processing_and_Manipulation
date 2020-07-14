@@ -9,7 +9,6 @@ int main()
 	CommandString inputmanage;
 	Subroutine test;
 
-	/*
 	for (;;)
 	{
 		inputmanage.getinput();
@@ -21,11 +20,11 @@ int main()
 		}
 		else
 		{
-			test.solve(inputmanage.return_parsed());
+			test.solve();
 		}
 	}
-	*/
-
+	
+	/*
 	for (;;)
 	{
 		//TODO: remove parenthesis from all syntax. Parenthesis will be added to main Methods
@@ -83,7 +82,7 @@ int main()
 			std::cout << "Multiply(" << variable_values[0] << ", " << variable_values[1] << ")" << std::endl;
 		}
 	}
-
+	*/
 
 	return 0;
 }

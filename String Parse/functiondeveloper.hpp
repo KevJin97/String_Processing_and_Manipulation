@@ -104,6 +104,7 @@ void var::operator=(std::string data)
 	}
 }
 
+
 //TODO: base "Method" functions: 'loop()', 'array/list', '=', ','
 //Perhaps different operator "overloads" for every data set? ...yeah, this is probably how building programming languages work
 
@@ -111,7 +112,7 @@ void var::operator=(std::string data)
 //Any inherited structs should contain basefunctions and operator instructions
 struct Method
 {
-	std::vector<std::string> operator_list;
+	std::vector<std::string> function_list;
 
 	std::string name;
 	std::vector<var> input;
@@ -127,7 +128,7 @@ struct Method
 
 Method::Method()
 {
-	this->operator_list =
+	this->function_list =
 	{
 		")",
 		"("
@@ -188,7 +189,6 @@ std::vector<std::size_t*> parenthesis_pairing(std::vector<std::size_t> open, std
 //TODO: consider: '>', '<', '>=', '<=', '==', '!='
 struct MathMethod : public Method
 {
-	std::vector<std::string> function_list;
 	std::vector<var> inputs;
 	
 	std::map<std::string, var(MathMethod::*)(std::vector<var>&)> basefunction;
@@ -197,6 +197,7 @@ struct MathMethod : public Method
 	MathMethod();
 
 	//basic operators
+	//Method parenthesis(std::vector<std::string> parsed, std::size_t open, std::size_t close);
 	var power(std::vector<var>& inputs);
 	var multiply(std::vector<var>& inputs);
 	var divide(std::vector<var>& inputs);
@@ -236,6 +237,7 @@ MathMethod::MathMethod()
 	};
 	
 	//mapping all member functions	TODO: add parenthesis and comma
+	//basefunction.insert(std::pair<std::string, Method(MathMethod::*)(std::vector<var>&)>("()", &MathMethod::parenthesis));
 	basefunction.insert(std::pair<std::string, var(MathMethod::*)(std::vector<var>&)>("^", &MathMethod::power));
 	basefunction.insert(std::pair<std::string, var(MathMethod::*)(std::vector<var>&)>("*", &MathMethod::multiply));
 	basefunction.insert(std::pair<std::string, var(MathMethod::*)(std::vector<var>&)>("+", &MathMethod::add));
@@ -432,7 +434,7 @@ var MathMethod::root(std::vector<var>& inputs)
 	{
 		if ((inputs[0].unknown == true) && (inputs[1].unknown == true))
 		{
-			ans.value = pow(inputs[1].value, 1 / base[0].value);
+			ans.value = pow(inputs[1].value, 1 / inputs[0].value);
 			ans.unknown = true;
 		}
 	}
@@ -459,7 +461,7 @@ var MathMethod::logarithm(std::vector<var>& inputs)
 	
 	if (inputs.size() == 1)	//default 10
 	{
-		if (input.unknown == true)
+		if (inputs[0].unknown == true)
 		{
 			ans.value = log(inputs[0].value) / log(10);
 			ans.unknown = true;
@@ -467,9 +469,9 @@ var MathMethod::logarithm(std::vector<var>& inputs)
 	}
 	else if (inputs.size() == 2)
 	{
-		if ((base.unknown == true) && (input.unknown == true))
+		if ((inputs[0].unknown == true) && (inputs[1].unknown == true))
 		{
-			ans.value = log(inputs[0].value) / log(inputs[1].value);
+			ans.value = log(inputs[1].value) / log(inputs[0].value);
 			ans.unknown = true;
 		}
 	}
@@ -489,7 +491,7 @@ std::vector<Method> MathMethod::functions()
 	base.input = inputs;
 	base.syntax = { inputs[0].varname, "^", inputs[1].varname };
 	base.functiondef = { inputs[0].varname, "^", inputs[1].varname };
-	base.output = power(inputs[0], inputs[1]);
+	base.output = power(inputs);
 
 	functions.push_back(base);
 
@@ -497,7 +499,7 @@ std::vector<Method> MathMethod::functions()
 	base.input = inputs;
 	base.syntax = { inputs[0].varname, "*", inputs[1].varname };
 	base.functiondef = { inputs[0].varname, "*", inputs[1].varname };
-	base.output = multiply(inputs[0], inputs[1]);
+	base.output = multiply(inputs);
 
 	functions.push_back(base);
 
@@ -505,7 +507,7 @@ std::vector<Method> MathMethod::functions()
 	base.input = inputs;
 	base.syntax = { inputs[0].varname, "/", inputs[1].varname };
 	base.functiondef = { inputs[0].varname, "/", inputs[1].varname };
-	base.output = divide(inputs[0], inputs[1]);
+	base.output = divide(inputs);
 
 	functions.push_back(base);
 
@@ -513,7 +515,7 @@ std::vector<Method> MathMethod::functions()
 	base.input = inputs;
 	base.syntax = { inputs[0].varname, "+", inputs[1].varname };
 	base.functiondef = { inputs[0].varname, "+", inputs[1].varname };
-	base.output = add(inputs[0], inputs[1]);
+	base.output = add(inputs);
 
 	functions.push_back(base);
 
@@ -521,110 +523,63 @@ std::vector<Method> MathMethod::functions()
 	base.input = inputs;
 	base.syntax = { inputs[0].varname, "-", inputs[1].varname };
 	base.functiondef = { inputs[0].varname, "-", inputs[1].varname };
-	base.output = subtract(inputs[0], inputs[1]);
+	base.output = subtract(inputs);
 
 	functions.push_back(base);
 
-	base.name = "-";
-	base.input = inputs;
-	base.syntax = { "-", inputs[0].varname };
-	base.functiondef = { "-", inputs[0].varname };
-	base.output = negative(inputs[0]);
-
-	functions.push_back(base);
 	base.name = "exp";
 	base.input = inputs;
-	base.syntax = { "exp", "(", inputs[0].varname, ")" };
-	base.functiondef = { "exp", "(", inputs[0].varname, ")" };
-	base.output = exponential(inputs[0]);
+	base.syntax = { "exp", inputs[0].varname };
+	base.functiondef = { "exp", inputs[0].varname };
+	base.output = exponential(inputs);
 
 	functions.push_back(base);
 
 	base.name = "cos";
 	base.input = inputs;
-	base.syntax = { "cos", "(", inputs[0].varname, ")" };
-	base.functiondef = { "cos", "(", inputs[0].varname, ")" };
-	base.output = cosine(inputs[0]);
+	base.syntax = { "cos", inputs[0].varname };
+	base.functiondef = { "cos", inputs[0].varname };
+	base.output = cosine(inputs);
 
 	functions.push_back(base);
 
 	base.name = "sin";
 	base.input = inputs;
-	base.syntax = { "sin", "(", inputs[0].varname, ")" };
-	base.functiondef = { "sin", "(", inputs[0].varname, ")" };
-	base.output = sine(inputs[0]);
+	base.syntax = { "sin", inputs[0].varname };
+	base.functiondef = { "sin", inputs[0].varname };
+	base.output = sine(inputs);
 
 	functions.push_back(base);
 
 	base.name = "tan";
 	base.input = inputs;
-	base.syntax = { "tan", "(", inputs[0].varname, ")" };
-	base.functiondef = { "tan", "(", inputs[0].varname, ")" };
-	base.output = tangent(inputs[0]);
-
-	functions.push_back(base);
-
-	base.name = "acos";
-	base.input = inputs;
-	base.syntax = { "acos", "(", inputs[0].varname, ")" };
-	base.functiondef = { "acos", "(", inputs[0].varname, ")" };
-	base.output = arccosine(inputs[0]);
-
-	functions.push_back(base);
-
-	base.name = "asin";
-	base.input = inputs;
-	base.syntax = { "asin", "(", inputs[0].varname, ")" };
-	base.functiondef = { "asin", "(", inputs[0].varname, ")" };
-	base.output = arcsine(inputs[0]);
-
-	functions.push_back(base);
-
-	base.name = "atan";
-	base.input = inputs;
-	base.syntax = { "atan", "(", inputs[0].varname, ")" };
-	base.functiondef = { "atan", "(", inputs[0].varname, ")" };
-	base.output = arctangent(inputs[0]);
+	base.syntax = { "tan", inputs[0].varname };
+	base.functiondef = { "tan", inputs[0].varname };
+	base.output = tangent(inputs);
 
 	functions.push_back(base);
 
 	base.name = "root";
 	base.input = inputs;
-	base.syntax = { "root", "(", inputs[0].varname, ")" };
-	base.functiondef = { "root", "(", inputs[0].varname, ")" };
-	base.output = root(inputs[0]);
-
-	functions.push_back(base);
-
-	base.name = "root";
-	base.input = inputs;
-	base.syntax = { "root", inputs[0].varname, "(", inputs[1].varname, ")" };
-	base.functiondef = { "root", inputs[0].varname, "(", inputs[1].varname, ")" };
-	base.output = root(inputs[0], inputs[1]);
+	base.syntax = { "root", inputs[0].varname, inputs[1].varname };
+	base.functiondef = { "root", inputs[0].varname, inputs[1].varname };
+	base.output = root(inputs);
 
 	functions.push_back(base);
 
 	base.name = "log";
 	base.input = inputs;
-	base.syntax = { "log", "(", inputs[0].varname, ")" };
-	base.functiondef = { "log", "(", inputs[0].varname, ")" };
-	base.output = logarithm(inputs[0]);
-
-	functions.push_back(base);
-
-	base.name = "log";
-	base.input = inputs;
-	base.syntax = { "log", inputs[0].varname, "(", inputs[1].varname, ")" };
-	base.functiondef = { "log", inputs[0].varname, "(", inputs[1].varname, ")" };
-	base.output = logarithm(inputs[0], inputs[1]);
+	base.syntax = { "log", inputs[0].varname, inputs[1].varname };
+	base.functiondef = { "log", inputs[0].varname, inputs[1].varname };
+	base.output = logarithm(inputs);
 
 	functions.push_back(base);
 
 	base.name = "ln";
 	base.input = inputs;
-	base.syntax = { "ln", "(", inputs[0].varname, ")" };
-	base.functiondef = { "ln", "(", inputs[0].varname, ")" };
-	base.output = natural_logarithm(inputs[0]);
+	base.syntax = { "ln", inputs[0].varname };
+	base.functiondef = { "ln", inputs[0].varname };
+	base.output = natural_logarithm(inputs);
 
 	functions.push_back(base);
 
@@ -685,56 +640,38 @@ Subroutine::~Subroutine()
 void Subroutine::define(std::string functionname)	//issues come up when functionname contains an operator. resolve later
 {
 	CommandString syntax;
-	Method function;
-	
-	if (this->function->operator_list.size() != 0)
-	{
-		syntax.parse_at(this->function->operator_list);
-	}
+	syntax.parse_at(this->function->function_list);
 
-	function.name = functionname;
+	this->function->name = functionname;	//set function name
 
-	std::cout << "define syntax: ";
-	syntax.getinput();	//define syntax, create error for when syntax definition doesn't have function name
-	function.syntax = syntax.return_parsed();
-	
-	syntax.isolate(functionname);
-	syntax.remove(functionname);	//filter functionname
-	
-	if (this->function->operator_list.size() != 0)
-	{
-		syntax.remove(this->function->operator_list);	//filter all operators
-	}
+	std::cout << "Syntax Definition: ";
+	syntax.getinput();
+	this->function->syntax = syntax.return_parsed();	//set function syntax
 
-	for (std::size_t i = 0; i < syntax.size(); i++)
+	syntax.ignore(this->function->function_list);
+	syntax.ignore(functionname);	//this is inefficient
+	for (std::size_t i = 0; i < syntax.size(); i++)	//set inputs
 	{
-		if (function.input.size() == 0)
+		if (this->function->input.size() == 0)
 		{
-			function.input.push_back(syntax[i]);
+			this->function->input.push_back(syntax[i]);
 		}
 		else
 		{
-			for (std::size_t j = 0; j < function.input.size(); j++)	//make sure there's no duplicates
+			for (std::size_t j = 0; j < this->function->input.size(); j++)
 			{
-				if (function.input[j].varname.compare(syntax[i]) != 0)
+				if (syntax[i].compare(this->function->input[j].varname) != 0)
 				{
-					function.input.push_back(syntax[i]);
+					this->function->input.push_back(syntax[i]);
 				}
 			}
 		}
 	}
-	std::cout << "function definition: ";
-	syntax.getinput();	//for functiondef
-	function.functiondef = syntax.return_parsed();	//work on string parser?
-
-	if (!this->checkfunction(function))
-	{
-		*(this->function) = function;
-	}
-	else
-	{
-		//error, function may already exist
-	}
+	
+	syntax.reset_ignore();
+	std::cout << "Function Definition: ";
+	syntax.getinput();
+	this->function->functiondef = syntax.return_parsed();	//set function definition
 }
 
 Method* Subroutine::return_method()
@@ -764,7 +701,35 @@ var Subroutine::solve()
 {
 	var ans;
 	
+	MathMethod multiplication;
+	multiplication.name = "+";
+	multiplication.input = { "var1", "var2" };
+	multiplication.syntax = { "var1", "*", "var2" };
+	multiplication.functiondef = { "var1", "*", "var2" };
 
+	CommandString equation;
+	equation.parse_at(this->function->function_list);
+	equation.getinput();
+
+	std::vector<std::size_t> operatorlocation_equation = equation.locate("*");	//location of operator in inputted equation
+	std::vector<std::size_t> operatorlocation_syntax = { 1 };
+
+	std::vector<int> relativeinputlocation;	//temporarily just a vector, holds relative variable location to operator location
+	for (std::size_t i = 0; i < multiplication.input.size(); i++)
+	{
+		std::vector<std::size_t> inputlocation = equation.locate(multiplication.input[i].varname);	//input location in syntax
+		for (std::size_t j = 0; j < inputlocation.size(); j++)
+		{
+			relativeinputlocation.push_back(inputlocation[j] - operatorlocation_syntax[0]);
+		}
+	}
+
+	MathMethod function;
+
+	multiplication.input[0] = equation[operatorlocation_equation[0] + relativeinputlocation[0]];
+	multiplication.input[1] = equation[operatorlocation_equation[0] + relativeinputlocation[1]];
+	
+	function.basefunction[multiplication.name];	//WHY THE FUCK ISN'T THIS WORKING
 	
 	return ans;
 }
