@@ -20,19 +20,34 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stringprocess.hpp">
+    <ClInclude Include="AutoString.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="mathstring.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="functiondeveloper.hpp">
+    <ClInclude Include="ComplexMathMethod.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FileString.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AutoString.hpp">
+    <ClInclude Include="functiondeveloper.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MathMethod.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MathString.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Method.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MethodTypes.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stringprocess.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VariableClass.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

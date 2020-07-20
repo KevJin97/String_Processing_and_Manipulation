@@ -1,13 +1,5 @@
-#ifndef METHODTYPES_HPP
-#define METHODTYPES_HPP
+#pragma once
 
-#include "VariableClass.cpp"
-#include "Method.cpp"
-#include "MathMethod.cpp"
-
-struct var;
-class Method;
-
-class MathMethod;
-
-#endif
+#include "Method.hpp"
+#include "MathMethod.hpp"
+#include "ComplexMathMethod.hpp"

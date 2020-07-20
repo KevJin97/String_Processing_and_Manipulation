@@ -151,10 +151,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AutoString.hpp" />
+    <ClInclude Include="ComplexMathMethod.hpp" />
     <ClInclude Include="FileString.hpp" />
     <ClInclude Include="functiondeveloper.hpp" />
-    <ClInclude Include="mathstring.hpp" />
+    <ClInclude Include="MathMethod.hpp" />
+    <ClInclude Include="MathString.hpp" />
+    <ClInclude Include="Method.hpp" />
+    <ClInclude Include="MethodTypes.hpp" />
     <ClInclude Include="stringprocess.hpp" />
+    <ClInclude Include="VariableClass.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

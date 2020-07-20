@@ -1,5 +1,4 @@
-#ifndef FUNCTIONDEVELOPER_HPP
-#define FUNCTIONDEVELOPER_HPP
+#pragma once
 
 #include <cmath>
 #include <string>
@@ -7,6 +6,7 @@
 #include <map>
 #include <utility>
 
+#include "VariableClass.hpp"
 #include "stringprocess.hpp"
 #include "MethodTypes.hpp"
 
@@ -55,36 +55,34 @@ class Subroutine
 {
 protected:
 	Method* function;
+	std::vector<std::string> queue;
+	std::map<std::string, Method>* basemethods;
 
 public:
 	Subroutine();	//sets to default Method base
 	Subroutine(Method* basemethod);	//new constructor for different types of Methods
 	~Subroutine();	//delete memory from base
 
+	void define(std::string functionname, std::vector<std::string> syntax, std::vector<std::string> functiondef);	//define function
 	Method* return_method();
-	std::size_t basefunction(std::string functionname, std::vector<var> inputs);	//returns the index the base function is located at
-	var solve();
-	var solve(CommandString command);
+	var solve(std::vector<std::string> equation);
 	bool checkfunction(Method function);	//check if defined function could be confused with a predefined function
 	
 	void operator=(Subroutine subroutine);
-
-	//testcode
-	void test()
-	{
-		
-	}
 };
 
 Subroutine::Subroutine()
-{	//temporary until MathString is finished
-	this->function = new MathMethod;
-	//base = new Method;	//replace with this
+{	
+	this->function = new Method;
+	this->queue = this->function->return_queue();
+	this->basemethods = this->function->return_Method();
 }
 
 Subroutine::Subroutine(Method* basemethod)
 {
 	this->function = basemethod;
+	this->queue = this->function->return_queue();
+	this->basemethods = this->function->return_Method();
 }
 
 Subroutine::~Subroutine()
@@ -92,39 +90,30 @@ Subroutine::~Subroutine()
 	delete function;
 }
 
+void Subroutine::define(std::string functionname, std::vector<std::string> syntax, std::vector<std::string> functiondef)
+{
+	this->function->define(functionname, syntax, functiondef);
+}
+
 Method* Subroutine::return_method()
 {
 	return this->function;
 }
 
-std::size_t Subroutine::basefunction(std::string functionname, std::vector<var> inputs)
+var Subroutine::solve(std::vector<std::string> equation)
 {
-	/*
-	std::size_t index;
+	var ans;
 
-	for (index = 0; index < this->basefunction_list.size(); index++)
+	for (std::size_t i = 0; i < this->queue.size(); i++)
 	{
-		if ((functionname.compare(this->basefunction_list[index].name)) == 0 && (inputs.size() == this->basefunction_list[index].input.size()))
+		for (std::size_t j = 0; j < equation.size(); j++)
 		{
-			return index;
+			if (this->queue[i].compare(equation[j]) == 0)
+			{
+
+			}
 		}
 	}
-
-	return this->basefunction_list.size();	//return the size value (index is outside of the range)
-	*/
-	return 0;
-}
-
-var Subroutine::solve()
-{
-	var ans;
-
-	return ans;
-}
-
-var Subroutine::solve(CommandString command)
-{
-	var ans;
 
 	return ans;
 }
@@ -144,15 +133,8 @@ bool Subroutine::checkfunction(Method function)
 	return true;
 }
 
-void parenthesis(CommandString& parsed, std::size_t open, std::size_t close)
-{
-	
-}
-
 void Subroutine::operator=(Subroutine subroutine)
 {
 	delete function;
 	this->function = subroutine.return_method();
 }
-
-#endif

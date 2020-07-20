@@ -1,5 +1,4 @@
-#ifndef STRINGPROCESS_HPP
-#define STRINGPROCESS_HPP
+#pragma once
 
 #include <string>
 #include <vector>
@@ -804,5 +803,3 @@ void CommandString::operator+(CommandString othercommandstring)
 		}
 	}
 }
-
-#endif

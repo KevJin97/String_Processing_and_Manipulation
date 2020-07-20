@@ -1,12 +1,12 @@
-#ifndef MATHSTRING_HPP
-#define MATHSTRING_HPP
+#pragma once
 
-#include "stringprocess.hpp"
-#include "functiondeveloper.hpp"
 #include <cmath>
 #include <complex>
 #include <string>
 #include <vector>
+
+#include "stringprocess.hpp"
+#include "functiondeveloper.hpp"
 
 class MathString : public CommandString
 {
@@ -78,4 +78,3 @@ void MathString::PEMDAS()
 
 }
 */
-#endif
