@@ -23,16 +23,10 @@
     <ClInclude Include="AutoString.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ComplexMathMethod.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="FileString.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="functiondeveloper.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MathMethod.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MathString.hpp">
@@ -47,7 +41,16 @@
     <ClInclude Include="stringprocess.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="VariableClass.hpp">
+    <ClInclude Include="Functions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MathFunctions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ComplexMathFunctions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Var.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

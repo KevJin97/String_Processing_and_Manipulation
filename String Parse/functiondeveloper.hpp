@@ -6,7 +6,7 @@
 #include <map>
 #include <utility>
 
-#include "VariableClass.hpp"
+#include "Var.hpp"
 #include "stringprocess.hpp"
 #include "MethodTypes.hpp"
 
@@ -49,92 +49,117 @@ std::vector<std::size_t*> parenthesis_pairing(std::vector<std::size_t> open, std
 	return paired;
 }
 
+struct Queue
+{
+	std::string functionname;
+	std::vector<std::size_t> functionlocations;
+
+	Queue() {}
+	Queue(std::string name);
+
+	void operator=(std::string name);
+};
+
+Queue::Queue(std::string name)
+{
+	this->functionname = name;
+}
+
+void Queue::operator=(std::string name)
+{
+	functionname = name;
+}
+
+
 //TODO: create a natural language subroutine that inherits from this one
 //Subroutine takes instruction sets in Method and processes it
 class Subroutine
 {
 protected:
-	Method* function;
-	std::vector<std::string> queue;
-	std::map<std::string, Method>* basemethods;
+	Functions* base;	//holds all base functions
+	std::vector<Queue> queue;	//order default operators will be run
+	std::map <std::string, Method> method_list;	//list of user-defined functions
+	std::map <std::string, var> variable_list;	//list of variables that get defined
 
 public:
-	Subroutine();	//sets to default Method base
-	Subroutine(Method* basemethod);	//new constructor for different types of Methods
-	~Subroutine();	//delete memory from base
+	Subroutine();
+	Subroutine(Functions* type);
+	~Subroutine();
 
-	void define(std::string functionname, std::vector<std::string> syntax, std::vector<std::string> functiondef);	//define function
-	Method* return_method();
-	var solve(std::vector<std::string> equation);
-	bool checkfunction(Method function);	//check if defined function could be confused with a predefined function
-	
-	void operator=(Subroutine subroutine);
+	void define(Method& method);
+	std::vector<var> run(std::vector<std::string>& command);	//runs the inputted command and returns list of outputs
+	var run_method(Method& method, std::size_t& operatorlocation, std::vector<std::string>& command);	//run user-defined methods
 };
 
 Subroutine::Subroutine()
-{	
-	this->function = new Method;
-	this->queue = this->function->return_queue();
-	this->basemethods = this->function->return_Method();
+{
+	this->base = new Functions;
+	
+	for (std::size_t i = 0; i < base->queue.size(); i++)
+	{
+		this->queue.push_back(base->queue[i]);
+	}
 }
 
-Subroutine::Subroutine(Method* basemethod)
+Subroutine::Subroutine(Functions* type)
 {
-	this->function = basemethod;
-	this->queue = this->function->return_queue();
-	this->basemethods = this->function->return_Method();
+	this->base = type;
+	
+	for (std::size_t i = 0; i < base->queue.size(); i++)
+	{
+		this->queue.push_back(base->queue[i]);
+	}
 }
 
 Subroutine::~Subroutine()
 {
-	delete function;
+	delete this->base;
 }
 
-void Subroutine::define(std::string functionname, std::vector<std::string> syntax, std::vector<std::string> functiondef)
+void Subroutine::define(Method& method)
 {
-	this->function->define(functionname, syntax, functiondef);
+	this->method_list.insert(std::pair<std::string, Method>(method.name, method));
+	this->queue.insert(this->queue.begin(), method.name);
 }
 
-Method* Subroutine::return_method()
+std::vector<var> Subroutine::run(std::vector<std::string>& command)
 {
-	return this->function;
-}
-
-var Subroutine::solve(std::vector<std::string> equation)
-{
-	var ans;
-
-	for (std::size_t i = 0; i < this->queue.size(); i++)
+	std::size_t* keeptrack = new std::size_t[command.size()];	//keep track of which sections has been used in command
+	for (std::size_t i = 0; i < command.size(); i++)	//initialize keeptrack to size of command
 	{
-		for (std::size_t j = 0; j < equation.size(); j++)
-		{
-			if (this->queue[i].compare(equation[j]) == 0)
-			{
+		keeptrack[i] = command.size();
+	}
 
+	std::size_t numberofoperators = 0;	//number of operators which determines number of outputs
+
+	for (std::size_t i = 0; i < command.size(); i++)	//retrieves total number of operators
+	{
+		for (std::size_t j = 0; j < this->queue.size(); j++)
+		{
+			//if it matches a basefunction, or user-defined function
+			if ((this->method_list.count(command[i]) <= 0) || (this->queue[j].functionname.compare(command[i]) == 0) && (this->queue.size() != 0))
+			{
+				numberofoperators++;
+				keeptrack[i] = i;
+				this->queue[j].functionlocations.push_back(j);
 			}
 		}
 	}
+	std::vector<var> outputs;
 
-	return ans;
+	for (std::size_t i = 0; i < this->queue.size(); i++)	//running the functions
+	{
+		for (std::size_t j = 0; j < this->queue[i].functionlocations.size(); j++)
+		{
+			
+		}
+	}
+	
+	delete[] keeptrack;
+	return outputs;
 }
 
-bool Subroutine::checkfunction(Method function)
+var Subroutine::run_method(Method& method, std::size_t& operatorlocation, std::vector<std::string>& command)
 {
-	/*
-	if (this->basefunction(function.name, function.input) == this->basefunction_list.size())	//false if function doesn't exist
-	{
-		return false;
-	}
-	else
-	{
-		return true;
-	}
-	*/
-	return true;
-}
 
-void Subroutine::operator=(Subroutine subroutine)
-{
-	delete function;
-	this->function = subroutine.return_method();
 }

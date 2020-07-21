@@ -1,6 +1,9 @@
+#pragma once
+
 #include <string>
 #include <vector>
 
+//possibly template this
 struct var
 {
 	std::string varname;
@@ -74,7 +77,6 @@ bool var::isnumber(std::string& data)
 
 void var::operator=(var input)
 {
-	this->varname = input.varname;
 	this->value = input.value;
 	this->type = input.type;
 	this->unknown = input.unknown;

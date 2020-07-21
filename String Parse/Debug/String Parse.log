@@ -1,2 +1,163 @@
 ﻿  String Parse.cpp
-  String Parse.vcxproj -> C:\Users\Jin\source\repos\String Parse\Debug\String Parse.exe
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(75,116): error C2440: '<function-style-cast>': cannot convert from 'initializer list' to 'std::pair<std::string,void (__thiscall MathFunctions::* )(std::vector<var,std::allocator<var>> &)>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(75,116): message : No constructor could take the source type, or constructor overload resolution was ambiguous
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(76,115): error C2440: '<function-style-cast>': cannot convert from 'initializer list' to 'std::pair<std::string,void (__thiscall MathFunctions::* )(std::vector<var,std::allocator<var>> &)>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(76,115): message : No constructor could take the source type, or constructor overload resolution was ambiguous
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(77,118): error C2440: '<function-style-cast>': cannot convert from 'initializer list' to 'std::pair<std::string,void (__thiscall MathFunctions::* )(std::vector<var,std::allocator<var>> &)>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(77,118): message : No constructor could take the source type, or constructor overload resolution was ambiguous
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(78,113): error C2440: '<function-style-cast>': cannot convert from 'initializer list' to 'std::pair<std::string,void (__thiscall MathFunctions::* )(std::vector<var,std::allocator<var>> &)>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(78,113): message : No constructor could take the source type, or constructor overload resolution was ambiguous
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(79,118): error C2440: '<function-style-cast>': cannot convert from 'initializer list' to 'std::pair<std::string,void (__thiscall MathFunctions::* )(std::vector<var,std::allocator<var>> &)>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(79,118): message : No constructor could take the source type, or constructor overload resolution was ambiguous
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(80,123): error C2440: '<function-style-cast>': cannot convert from 'initializer list' to 'std::pair<std::string,void (__thiscall MathFunctions::* )(std::vector<var,std::allocator<var>> &)>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(80,123): message : No constructor could take the source type, or constructor overload resolution was ambiguous
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(81,118): error C2440: '<function-style-cast>': cannot convert from 'initializer list' to 'std::pair<std::string,void (__thiscall MathFunctions::* )(std::vector<var,std::allocator<var>> &)>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(81,118): message : No constructor could take the source type, or constructor overload resolution was ambiguous
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(82,116): error C2440: '<function-style-cast>': cannot convert from 'initializer list' to 'std::pair<std::string,void (__thiscall MathFunctions::* )(std::vector<var,std::allocator<var>> &)>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(82,116): message : No constructor could take the source type, or constructor overload resolution was ambiguous
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(83,119): error C2440: '<function-style-cast>': cannot convert from 'initializer list' to 'std::pair<std::string,void (__thiscall MathFunctions::* )(std::vector<var,std::allocator<var>> &)>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(83,119): message : No constructor could take the source type, or constructor overload resolution was ambiguous
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(84,122): error C2440: '<function-style-cast>': cannot convert from 'initializer list' to 'std::pair<std::string,void (__thiscall MathFunctions::* )(std::vector<var,std::allocator<var>> &)>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(84,122): message : No constructor could take the source type, or constructor overload resolution was ambiguous
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(85,115): error C2440: '<function-style-cast>': cannot convert from 'initializer list' to 'std::pair<std::string,void (__thiscall MathFunctions::* )(std::vector<var,std::allocator<var>> &)>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(85,115): message : No constructor could take the source type, or constructor overload resolution was ambiguous
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(86,120): error C2440: '<function-style-cast>': cannot convert from 'initializer list' to 'std::pair<std::string,void (__thiscall MathFunctions::* )(std::vector<var,std::allocator<var>> &)>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(86,120): message : No constructor could take the source type, or constructor overload resolution was ambiguous
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(87,123): error C2440: '<function-style-cast>': cannot convert from 'initializer list' to 'std::pair<std::string,void (__thiscall MathFunctions::* )(std::vector<var,std::allocator<var>> &)>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(87,123): message : No constructor could take the source type, or constructor overload resolution was ambiguous
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(88,117): error C2440: '<function-style-cast>': cannot convert from 'initializer list' to 'std::pair<std::string,void (__thiscall MathFunctions::* )(std::vector<var,std::allocator<var>> &)>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(88,117): message : No constructor could take the source type, or constructor overload resolution was ambiguous
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(89,128): error C2440: '<function-style-cast>': cannot convert from 'initializer list' to 'std::pair<std::string,void (__thiscall MathFunctions::* )(std::vector<var,std::allocator<var>> &)>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(89,128): message : No constructor could take the source type, or constructor overload resolution was ambiguous
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(90,121): error C2440: '<function-style-cast>': cannot convert from 'initializer list' to 'std::pair<std::string,void (__thiscall MathFunctions::* )(std::vector<var,std::allocator<var>> &)>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(90,121): message : No constructor could take the source type, or constructor overload resolution was ambiguous
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(97,6): error C2039: 'unknown': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(97,47): error C2039: 'unknown': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(119,6): error C2039: 'unknown': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(121,35): error C2039: 'value': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(121,52): error C2039: 'value': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(121,52): error C2661: 'pow': no overloaded function takes 1 arguments
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(129,12): error C2562: 'MathFunctions::power': 'void' function returning a value
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(113): message : see declaration of 'MathFunctions::power'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(138,6): error C2039: 'unknown': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(140,32): error C2039: 'value': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(140,49): error C2039: 'value': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(148,12): error C2562: 'MathFunctions::multiply': 'void' function returning a value
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(132): message : see declaration of 'MathFunctions::multiply'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(157,6): error C2039: 'unknown': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(159,32): error C2039: 'value': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(159,49): error C2039: 'value': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(167,12): error C2562: 'MathFunctions::divide': 'void' function returning a value
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(151): message : see declaration of 'MathFunctions::divide'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(176,6): error C2039: 'unknown': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(178,32): error C2039: 'value': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(178,49): error C2039: 'value': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(186,12): error C2562: 'MathFunctions::add': 'void' function returning a value
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(170): message : see declaration of 'MathFunctions::add'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(195,6): error C2039: 'unknown': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(197,32): error C2039: 'value': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(197,49): error C2039: 'value': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(203,6): error C2039: 'unknown': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(205,32): error C2039: 'value': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(209,12): error C2562: 'MathFunctions::subtract': 'void' function returning a value
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(189): message : see declaration of 'MathFunctions::subtract'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(218,6): error C2039: 'unknown': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(220,35): error C2039: 'value': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(224,12): error C2562: 'MathFunctions::exponential': 'void' function returning a value
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(212): message : see declaration of 'MathFunctions::exponential'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(233,6): error C2039: 'unknown': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(235,35): error C2039: 'value': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(243,12): error C2562: 'MathFunctions::cosine': 'void' function returning a value
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(227): message : see declaration of 'MathFunctions::cosine'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(252,6): error C2039: 'unknown': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(254,35): error C2039: 'value': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(262,12): error C2562: 'MathFunctions::sine': 'void' function returning a value
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(246): message : see declaration of 'MathFunctions::sine'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(271,6): error C2039: 'unknown': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(273,35): error C2039: 'value': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(281,12): error C2562: 'MathFunctions::tangent': 'void' function returning a value
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(265): message : see declaration of 'MathFunctions::tangent'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(290,6): error C2039: 'unknown': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(292,36): error C2039: 'value': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(300,12): error C2562: 'MathFunctions::arccosine': 'void' function returning a value
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(284): message : see declaration of 'MathFunctions::arccosine'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(309,6): error C2039: 'unknown': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(311,36): error C2039: 'value': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(319,12): error C2562: 'MathFunctions::arcsine': 'void' function returning a value
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(303): message : see declaration of 'MathFunctions::arcsine'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(328,6): error C2039: 'unknown': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(330,36): error C2039: 'value': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(338,12): error C2562: 'MathFunctions::arctangent': 'void' function returning a value
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(322): message : see declaration of 'MathFunctions::arctangent'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(347,6): error C2039: 'unknown': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(349,35): error C2039: 'value': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(349,56): error C2039: 'value': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(349,56): error C2661: 'pow': no overloaded function takes 1 arguments
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(355,6): error C2039: 'unknown': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(357,35): error C2039: 'value': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(357,56): error C2039: 'value': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(357,56): error C2661: 'pow': no overloaded function takes 1 arguments
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(365,12): error C2562: 'MathFunctions::root': 'void' function returning a value
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(341): message : see declaration of 'MathFunctions::root'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(373,6): error C2039: 'unknown': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(375,35): error C2039: 'value': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(383,12): error C2562: 'MathFunctions::natural_logarithm': 'void' function returning a value
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(368): message : see declaration of 'MathFunctions::natural_logarithm'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(392,6): error C2039: 'unknown': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(394,35): error C2039: 'value': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(400,6): error C2039: 'unknown': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(402,35): error C2039: 'value': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(402,58): error C2039: 'value': is not a member of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xstring(4448): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(410,12): error C2562: 'MathFunctions::logarithm': 'void' function returning a value
+C:\Users\Jin\source\repos\String Parse\String Parse\MathFunctions.hpp(386): message : see declaration of 'MathFunctions::logarithm'
+C:\Users\Jin\source\repos\String Parse\String Parse\functiondeveloper.hpp(108,7): error C2059: syntax error: ')'
+C:\Users\Jin\source\repos\String Parse\String Parse\functiondeveloper.hpp(109,3): error C2143: syntax error: missing ';' before '{'
+C:\Users\Jin\source\repos\String Parse\String Parse\functiondeveloper.hpp(113,27): error C2065: 'operatornumbers': undeclared identifier
+C:\Users\Jin\source\repos\String Parse\String Parse\functiondeveloper.hpp(113,44): error C2065: 'operatornumbers': undeclared identifier
+C:\Users\Jin\source\repos\String Parse\String Parse\String Parse.cpp(16,37): error C3867: 'CommandString::return_parsed': non-standard syntax; use '&' to create a pointer to member
