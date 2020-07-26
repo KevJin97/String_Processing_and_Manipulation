@@ -13,7 +13,7 @@
 struct Method
 {
 	std::string name;	//function name
-	std::vector<var> input;	//list of inputs
+	std::vector<var*> input;	//list of inputs
 	std::vector<std::string> syntax;	//the syntax of how it's used
 	std::vector<std::string> functiondef;	//how to execute using basefunction list
 	
@@ -21,7 +21,8 @@ struct Method
 	std::size_t operatorlocation;	//location of operator in syntax
 
 	void setrelative();	//set relative location
-	void clear();	//clear all values
+	void clear();	//clear all components
+	void wipe();	//clear with deallocation
 
 	void operator=(Method function);
 };
@@ -55,7 +56,7 @@ void Method::setrelative()
 		{
 			for (std::size_t j = 0; j < this->syntax.size(); j++)
 			{
-				if (this->input[i].varname.compare(this->syntax[j]) == 0)
+				if (this->input[i]->varname.compare(this->syntax[j]) == 0)
 				{
 					this->relativelocations.push_back(j - this->operatorlocation);
 					hasbeenused[i] = true;
@@ -72,7 +73,7 @@ void Method::setrelative()
 			{
 				if (hasbeenused[i])
 				{
-					hold.push_back(this->input[i].varname);
+					hold.push_back(this->input[i]->varname);
 				}
 			}
 		}
@@ -90,12 +91,29 @@ void Method::clear()
 	this->input.clear();
 	this->syntax.clear();
 	this->functiondef.clear();
+	this->relativelocations.clear();
+}
+
+void Method::wipe()
+{
+	for (std::size_t i = 0; i < this->input.size(); i++)
+	{
+		delete this->input[i];
+	}
+	this->input.clear();
+	this->syntax.clear();
+	this->functiondef.clear();
+	this->relativelocations.clear();
 }
 
 void Method::operator=(Method function)
 {
+	this->clear();
 	this->name = function.name;
-	this->input = function.input;
+	for (std::size_t i = 0; i < function.input.size(); i++)
+	{
+		this->input.push_back(new var(function.input[i]->varname));
+	}
 	this->syntax = function.syntax;
 	this->functiondef = function.functiondef;
 	this->setrelative();

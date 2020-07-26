@@ -19,11 +19,11 @@ struct var
 
 	void operator=(var input);
 	void operator=(std::string data);
+	void operator=(double value);
 };
 
 var::var()
 {
-	this->varname = "NULL";
 	this->value = 0;
 	this->unknown = true;
 }
@@ -103,7 +103,7 @@ void var::operator=(std::string data)
 		this->varname = data;
 		this->value = 0;	//unusuable if unknown false
 		this->type = "double";
-		this->unknown = false;
+		this->unknown = true;
 	}
 	else if (data.compare("NULL") == 0)
 	{
@@ -120,4 +120,11 @@ void var::operator=(std::string data)
 		this->type = "double";
 		this->unknown = false;
 	}
+}
+
+void var::operator=(double value)
+{
+	this->value = value;
+	this->type = "double";
+	this->unknown = false;
 }

@@ -56,9 +56,9 @@ class Subroutine
 protected:
 	Functions* base;	//holds all base functions
 	std::map<std::string, Method> method_list;	//list of user-defined functions
-	std::vector<var> variable_list;	//list of variables that get defined	
+	std::vector<var*> variable_list;	//list of variables that get defined	
 
-	std::vector<var> execute(std::vector<std::string> command, std::vector<var>& variables);	//runs the inputted command and returns list of outputs
+	std::vector<var> execute(std::vector<std::string>& command, std::vector<var*>& variables);	//runs the inputted command and returns list of outputs
 
 public:
 	Subroutine();
@@ -66,20 +66,13 @@ public:
 	~Subroutine();
 
 	void define(Method& method);	//defines a new function
-	std::vector<var> run(std::vector<std::string>& command);	//input complete command to run
+	std::vector<var> run(std::vector<std::string> command);	//input complete command to run
 	var run_method(std::vector<std::string>& command, std::size_t& operatorlocation, Method& method);	//run the function
 	void erasevar(std::string& varname);	//erase the variable
-	bool isvariable(std::string& input, std::vector<var>& varlist);	//check if it's on the variable list
+	bool isvariable(std::string& input, std::vector<var*>& varlist);	//check if it's on the variable list
 	bool isoperator(std::string& input);	//check if it's on operator list
 
-	void test(std::vector<std::string>& command)
-	{
-		for (std::size_t i = 0; i < command.size(); i++)
-		{
-			std::cout << command[i] << " ";
-		}
-		std::cout << std::endl;
-	}
+	void test() {}
 };
 
 Subroutine::Subroutine()
@@ -95,6 +88,16 @@ Subroutine::Subroutine(Functions* type)
 Subroutine::~Subroutine()
 {
 	delete this->base;
+
+	for (std::size_t i = 0; i < this->variable_list.size(); i++)
+	{
+		delete this->variable_list[i];
+	}
+	
+	for (std::map<std::string, Method>::iterator i = this->method_list.begin(); i != this->method_list.end(); i++)
+	{
+		this->method_list[i->first].clear();
+	}	
 }
 
 void Subroutine::define(Method& method)
@@ -107,20 +110,18 @@ void Subroutine::define(Method& method)
 	{
 		std::cout << "Function \"" << method.name << "\" has already been defined" << std::endl;
 	}
-
 }
 
-std::vector<var> Subroutine::run(std::vector<std::string>& command)
+std::vector<var> Subroutine::run(std::vector<std::string> command)
 {
 	return this->execute(command, this->variable_list);
 }
 
-std::vector<var> Subroutine::execute(std::vector<std::string> command, std::vector<var>& variables)
+std::vector<var> Subroutine::execute(std::vector<std::string>& command, std::vector<var*>& variables)
 {
 	std::vector<std::string>* p_command_mod = new std::vector<std::string>(command);
 	std::vector<std::string>* p_hold = p_command_mod;
 	std::vector<std::size_t> operatorlocations;
-	Method method;
 	std::vector<var> outputs;
 	
 	//set-up
@@ -134,7 +135,7 @@ std::vector<var> Subroutine::execute(std::vector<std::string> command, std::vect
 			}
 			else if (!this->isvariable(command[i], variables) && !var::isnumber(command[i]))
 			{
-				variables.push_back(command[i]);
+				variables.push_back(new var(command[i]));
 			}
 		}
 	}
@@ -153,7 +154,7 @@ std::vector<var> Subroutine::execute(std::vector<std::string> command, std::vect
 			}
 			else if (!this->isvariable(command[i], variables) && !var::isnumber(command[i]))
 			{
-				variables.push_back(command[i]);
+				variables.push_back(new var(command[i]));
 			}
 		}
 		for (std::size_t i = 0; i < this->base->order.size(); i++)
@@ -173,6 +174,7 @@ std::vector<var> Subroutine::execute(std::vector<std::string> command, std::vect
 
 	for (std::size_t i = 0; i < operatorlocations.size(); i++)	//run methods
 	{
+		Method method;
 		//set method
 		if (this->method_list.count((*p_command_mod)[operatorlocations[i]]) > 0)
 		{
@@ -193,8 +195,9 @@ std::vector<var> Subroutine::execute(std::vector<std::string> command, std::vect
 			{
 				for (std::size_t k = 0; k < variables.size(); k++)
 				{
-					if (variables[k].varname.compare((*p_command_mod)[varloc]) == 0)
+					if (variables[k]->varname.compare((*p_command_mod)[varloc]) == 0)
 					{
+						delete method.input[j];
 						method.input[j] = variables[k];
 						break;
 					}
@@ -206,7 +209,7 @@ std::vector<var> Subroutine::execute(std::vector<std::string> command, std::vect
 			}
 			else if (var::isnumber((*p_command_mod)[varloc]))
 			{
-				method.input[j] = (*p_command_mod)[varloc];
+				*method.input[j] = (*p_command_mod)[varloc];
 			}
 			else    //outputs
 			{
@@ -214,14 +217,14 @@ std::vector<var> Subroutine::execute(std::vector<std::string> command, std::vect
 				{
 					if (outputs[k].varname.compare((*p_command_mod)[varloc]) == 0)
 					{
-						method.input[j] = outputs[k];
+						*method.input[j] = outputs[k];
 						break;
 					}
 				}
 			}
 		}
 
-		outputs[i] = this->run_method(command, operatorlocations[i], method);	//get output
+		outputs[i] = this->run_method(*p_command_mod, operatorlocations[i], method);	//get output
 		p_hold = new std::vector<std::string>;
 
 		for (std::size_t j = 0; j < p_command_mod->size(); j++)
@@ -246,6 +249,13 @@ std::vector<var> Subroutine::execute(std::vector<std::string> command, std::vect
 		
 		delete p_command_mod;
 		p_command_mod = p_hold;
+		for (std::size_t i = 0; i < method.input.size(); i++)
+		{
+			if (!this->isvariable(method.input[i]->varname, variables))
+			{
+				delete method.input[i];
+			}
+		}
 	}
 
 	delete p_command_mod;
@@ -273,18 +283,19 @@ var Subroutine::run_method(std::vector<std::string>& command, std::size_t& opera
 
 void Subroutine::erasevar(std::string& varname)
 {
-	std::vector<var> hold = this->variable_list;
+	std::vector<var*> hold = this->variable_list;
 	this->variable_list.clear();
 
 	for (std::size_t i = 0; i < hold.size(); i++)
 	{
-		if (this->variable_list[i].varname.compare(varname))
+		if (this->variable_list[i]->varname.compare(varname))
 		{
 			this->variable_list.push_back(hold[i]);
 		}
-		else if (this->variable_list[i].varname.compare(varname) == 0)
+		else if (this->variable_list[i]->varname.compare(varname) == 0)
 		{
-			std::cout << this->variable_list[i].varname << " has been deleted" << std::endl;
+			delete variable_list[i];
+			std::cout << this->variable_list[i]->varname << " has been deleted" << std::endl;
 		}
 	}
 	if (hold.size() == this->variable_list.size())
@@ -293,11 +304,11 @@ void Subroutine::erasevar(std::string& varname)
 	}
 }
 
-bool Subroutine::isvariable(std::string& input, std::vector<var>& varlist)
+bool Subroutine::isvariable(std::string& input, std::vector<var*>& varlist)
 {
 	for (std::size_t i = 0; i < varlist.size(); i++)
 	{
-		if (varlist[i].varname.compare(input) == 0)
+		if (varlist[i]->varname.compare(input) == 0)
 		{
 			return true;
 		}
