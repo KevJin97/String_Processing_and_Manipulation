@@ -9,58 +9,23 @@
 
 struct Functions
 {
-	std::vector<std::string> function_list;
-	std::vector<std::string> queue;
+	std::map<std::string, Method> method_list;	//holds syntax and variables
+	std::vector<std::string> order;	//what order to execute 
 	var output;
 
 	bool isoperator(std::string op);	//checks if it's an operator
-	std::vector<std::vector<int>> relativelocations(Method& method);	//returns the relative-to-operator locations of all inputs
+
+	inline void function(std::vector<std::string>& command, std::size_t& operatorlocation, std::vector<var*>& variables, var& output) {}	//define later
 };
 
 bool Functions::isoperator(std::string op)
 {
-	if (this->function_list.size())
+	if (this->method_list.count(op) <= 0)
 	{
-		for (std::size_t i = 0; i < function_list.size(); i++)
-		{
-			if (function_list[i].compare(op))
-			{
-				return true;
-			}
-		}
+		return true;
 	}
 	else
 	{
 		return false;
 	}
-}
-
-std::vector<std::vector<int>> Functions::relativelocations(Method& method)
-{
-	std::vector<std::vector<int>> returnvector;
-	std::vector<int> relativelocation;
-	std::size_t operatorlocation;
-
-	for (std::size_t i = 0; i < method.syntax.size(); i++)	//find the operator
-	{
-		if (method.syntax[i].compare(method.name) == 0)
-		{
-			operatorlocation = i;
-			break;
-		}
-	}
-	for (std::size_t i = 0; i < method.syntax.size(); i++)	//find all locations of the variables
-	{
-		for (std::size_t j = 0; j < method.input.size(); j++)
-		{
-			if (method.input[j].varname.compare(method.syntax[i]) == 0)
-			{
-				relativelocation.push_back(i - operatorlocation);
-			}
-		}
-		returnvector.push_back(relativelocation);
-		relativelocation.clear();
-	}
-
-	return returnvector;
 }

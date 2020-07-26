@@ -13,7 +13,8 @@ int main()
 	for (;;)
 	{
 		inputmanage.getinput();
-		test.run(inputmanage.return_parsed);
+		std::vector<std::string> command = inputmanage.return_parsed();
+		test.run(command);
 	}
 
 	return 0;
