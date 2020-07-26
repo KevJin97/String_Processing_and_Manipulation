@@ -118,6 +118,6 @@ void var::operator=(std::string data)
 	{
 		this->value = std::stod(data);
 		this->type = "double";
-		this->unknown = true;
+		this->unknown = false;
 	}
 }

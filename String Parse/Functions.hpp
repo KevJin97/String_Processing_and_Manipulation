@@ -15,7 +15,7 @@ struct Functions
 
 	bool isoperator(std::string op);	//checks if it's an operator
 
-	inline void function(std::vector<std::string>& command, std::size_t& operatorlocation, std::vector<var*>& variables, var& output) {}	//define later
+	virtual void function(std::vector<std::string>& command, std::size_t& operatorlocation, Method& method, var& output) {}	//define later
 };
 
 bool Functions::isoperator(std::string op)

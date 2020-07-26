@@ -74,7 +74,7 @@ std::vector<std::string> CommandString::parse(std::string string2parse)
 		}
 		else
 		{
-			while (string2parse[index] != ' ' && index < string2parse.size())
+			while ((string2parse[index] != ' ') && (index < string2parse.size()))
 			{
 				index++;
 			}
@@ -95,7 +95,7 @@ std::vector<std::string> CommandString::parse(std::string string2parse)
 
 			placehold = index + 1;	//set new placeholder at one higher than previous index
 		}
-	} while (index < string2parse.size());
+	} while ((index < string2parse.size()) && (placehold < string2parse.size()));
 
 	return returnstring;
 }

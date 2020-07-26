@@ -67,7 +67,7 @@ public:
 
 	void define(Method& method);	//defines a new function
 	std::vector<var> run(std::vector<std::string>& command);	//input complete command to run
-	var run_method(Method& method);	//run the function
+	var run_method(std::vector<std::string>& command, std::size_t& operatorlocation, Method& method);	//run the function
 	void erasevar(std::string& varname);	//erase the variable
 	bool isvariable(std::string& input, std::vector<var>& varlist);	//check if it's on the variable list
 	bool isoperator(std::string& input);	//check if it's on operator list
@@ -168,7 +168,7 @@ std::vector<var> Subroutine::execute(std::vector<std::string> command, std::vect
 		}
 	}
 
-	//below may be integrated with the set-up
+	//below may possibly be integrated with the set-up later
 	outputs.resize(operatorlocations.size());
 
 	for (std::size_t i = 0; i < operatorlocations.size(); i++)	//run methods
@@ -185,11 +185,11 @@ std::vector<var> Subroutine::execute(std::vector<std::string> command, std::vect
 		
 		outputs[i] = "Out" + std::to_string(i);
 
-		for (std::size_t varloc, j = 0; j < method.input.size(); j++)	//set inputs
+		for (std::size_t varloc, j = 0; j < method.input.size(); j++)	//set inputs, program safeties later
 		{
 			varloc = operatorlocations[i] + method.relativelocations[j];
 			
-			if (this->isvariable((*p_command_mod)[varloc], variables))	//optimize later
+			if (this->isvariable((*p_command_mod)[varloc], variables))	//OPTIMIZE LATER
 			{
 				for (std::size_t k = 0; k < variables.size(); k++)
 				{
@@ -208,7 +208,7 @@ std::vector<var> Subroutine::execute(std::vector<std::string> command, std::vect
 			{
 				method.input[j] = (*p_command_mod)[varloc];
 			}
-			else
+			else    //outputs
 			{
 				for (std::size_t k = 0; k < outputs.size(); k++)
 				{
@@ -221,7 +221,7 @@ std::vector<var> Subroutine::execute(std::vector<std::string> command, std::vect
 			}
 		}
 
-		//outputs[i] = this->run_method(method);	//get output
+		outputs[i] = this->run_method(command, operatorlocations[i], method);	//get output
 		p_hold = new std::vector<std::string>;
 
 		for (std::size_t j = 0; j < p_command_mod->size(); j++)
@@ -253,7 +253,7 @@ std::vector<var> Subroutine::execute(std::vector<std::string> command, std::vect
 	return outputs;
 }
 
-var Subroutine::run_method(Method& method)
+var Subroutine::run_method(std::vector<std::string>& command, std::size_t& operatorlocation, Method& method)
 {
 	if (this->method_list.count(method.name) > 0)	//if it's user defined
 	{
@@ -261,7 +261,9 @@ var Subroutine::run_method(Method& method)
 	}
 	else if (this->base->method_list.count(method.name) > 0)   //if it's a base method
 	{
-		return this->execute(method.functiondef, method.input).back();	//change this shit
+		var output("OUT");
+		this->base->function(command, operatorlocation, method, output);
+		return output;
 	}
 	else    //if it's neither
 	{
