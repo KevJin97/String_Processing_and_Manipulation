@@ -20,16 +20,64 @@ protected:
 public:
 	ioFunctions();
 	~ioFunctions();
+
+	void function(std::vector<std::string>& command, std::size_t& operatorlocation, Method& method, var& output);
 };
 
 ioFunctions::ioFunctions()
 {
+	Method method;
 
+	method.name = "GetCursorLocation";
+	method.input = { new var("x"), new var("y") };
+	method.syntax = { "GetCursorLocation", "(", "x", ",", "y", ")" };
+	method.functiondef = { "GetCursorLocation", "(", "x", ",", "y", ")" };
+	method.setrelative();
+	this->method_list.insert(std::pair <std::string, Method>(method.name, method));
+
+	method.clear();
+	method.name = "MoveCursor";
+	method.input = { new var("x"), new var("y") };
+	method.syntax = { "MoveCursor", "(", "x", ",", "y", ")" };
+	method.functiondef = { "MoveCursor", "(", "x", ",", "y", ")" };
+	method.setrelative();
+	this->method_list.insert(std::pair <std::string, Method>(method.name, method));
+
+	method.clear();
+	method.name = "LeftClick";
+	method.syntax = { "LeftClick" };
+	method.functiondef = { "LeftClick" };
+	method.setrelative();
+	this->method_list.insert(std::pair <std::string, Method>(method.name, method));
+
+	method.clear();
+	method.name = "RightClick";
+	method.syntax = { "RightClick" };
+	method.functiondef = { "RightClick" };
+	method.setrelative();
+	this->method_list.insert(std::pair <std::string, Method>(method.name, method));
+
+	method.clear();
+	method.name = "Type";
+	method.input = { new var("string") };
+	method.syntax = { "Type", "(", "string", ")" };
+	method.functiondef = { "Type", "(", "string", ")" };
+	method.setrelative();
+	this->method_list.insert(std::pair <std::string, Method>(method.name, method));
+
+	this->functions.insert(std::pair<std::string, void(ioFunctions::*)(std::vector<var*>&, var&)>("GetCursorLocation", &ioFunctions::getcursorlocation));
+	this->functions.insert(std::pair<std::string, void(ioFunctions::*)(std::vector<var*>&, var&)>("MoveCursor", &ioFunctions::movecursor));
+	this->functions.insert(std::pair<std::string, void(ioFunctions::*)(std::vector<var*>&, var&)>("LeftClick", &ioFunctions::leftclick));
+	this->functions.insert(std::pair<std::string, void(ioFunctions::*)(std::vector<var*>&, var&)>("RightClick", &ioFunctions::rightclick));
+	this->functions.insert(std::pair<std::string, void(ioFunctions::*)(std::vector<var*>&, var&)>("Type", &ioFunctions::type));
 }
 
 ioFunctions::~ioFunctions()
 {
-
+	for (std::map<std::string, Method>::iterator i = this->method_list.begin(); i != this->method_list.end(); i++)
+	{
+		this->method_list[i->first].clear();
+	}
 }
 
 void ioFunctions::getcursorlocation(std::vector<var*>& inputs, var& output)
@@ -230,4 +278,9 @@ void ioFunctions::type(std::vector<var*>& inputs, var& outputs)
 		Input.ki.dwFlags = KEYEVENTF_KEYUP;
 		SendInput(1, &Input, sizeof(INPUT));
 	}
+}
+
+void ioFunctions::function(std::vector<std::string>& command, std::size_t& operatorlocation, Method& method, var& output)
+{
+	(this->*(functions[command[operatorlocation]]))(method.input, output);
 }

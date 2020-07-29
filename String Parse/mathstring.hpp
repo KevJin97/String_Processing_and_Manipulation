@@ -14,12 +14,12 @@ protected:
 	Subroutine function;
 
 	void define_method(std::string& functionname);
+	void changetype();
 
 public:
 	MathString();
 
 	void getinput();
-	void changetype();
 };
 
 void MathString::define_method(std::string& functionname)
