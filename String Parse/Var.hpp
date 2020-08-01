@@ -2,129 +2,136 @@
 
 #include <string>
 #include <vector>
+#include <typeinfo>
 
-//possibly template this
-struct var
+#include "MethodTypes.hpp"
+
+//variables
+class var
 {
+private:
+	bool initialized;
+	
+public:
 	std::string varname;
-	double value;
+	void* value;
 	std::string type;
 	bool unknown;
 
 	var();
-	var(std::string data);
-	var(double value);
+	var(std::string name);
+	var(void* value, std::string type);
+	var(std::size_t size, std::string type);
+	var(std::string name, std::size_t size, std::string type);
+	~var();
 
-	static bool isnumber(std::string& data);
+	void clear();
+	void changetype(std::size_t size, std::string type);
+	void set(var variable);
 
-	void operator=(var input);
-	void operator=(std::string data);
-	void operator=(double value);
+	void operator=(var newvar);
 };
 
 var::var()
 {
-	this->value = 0;
+	this->initialized = false;
+}
+
+var::var(std::string name)
+{
+	this->varname = name;
 	this->unknown = true;
+
+	this->initialized = false;
 }
 
-var::var(std::string data)
-{
-	if (!this->isnumber(data) && (data.compare("NULL") != 0))
-	{
-		this->varname = data;
-		this->value = 0;	//unusuable if unknown false
-		this->type = "double";
-		this->unknown = false;
-	}
-	else if (data.compare("NULL") == 0)
-	{
-		std::cout << "\"NULL\" cannot be used as a function name." << std::endl;
-		std::cout << "Variable name has been switched to \"null\"" << std::endl;
-		this->varname = "null";
-		this->value = 0;	//unusuable if unknown false
-		this->type = "double";
-		this->unknown = false;
-	}
-	else
-	{
-		this->value = std::stod(data);
-		this->type = "double";
-		this->unknown = true;
-	}
-}
-
-var::var(double value)
-{
-	this->varname = "num";
-	this->value = value;
-	this->type = "double";
-	this->unknown = true;
-}
-
-bool var::isnumber(std::string& data)
-{
-	if (data.size() > 0)
-	{
-		for (std::size_t i = 0; i < data.size(); i++)
-		{
-			if (('0' > data[i]) || (data[i] > '9'))
-			{
-				return false;
-			}
-			else
-			{
-				break;
-			}
-		}
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
-
-void var::operator=(var input)
-{
-	if (this->varname.size() == 0)
-	{
-		this->varname = input.varname;
-	}
-	this->value = input.value;
-	this->type = input.type;
-	this->unknown = input.unknown;
-}
-
-void var::operator=(std::string data)
-{
-	if (!this->isnumber(data) && (data.compare("NULL") != 0))
-	{
-		this->varname = data;
-		this->value = 0;	//unusuable if unknown false
-		this->type = "double";
-		this->unknown = true;
-	}
-	else if (data.compare("NULL") == 0)
-	{
-		std::cout << "\"NULL\" cannot be used as a function name." << std::endl;
-		std::cout << "Variable name has been switched to \"null\"" << std::endl;
-		this->varname = "null";
-		this->value = 0;	//unusuable if unknown false
-		this->type = "double";
-		this->unknown = false;
-	}
-	else
-	{
-		this->value = std::stod(data);
-		this->type = "double";
-		this->unknown = false;
-	}
-}
-
-void var::operator=(double value)
+var::var(void* value, std::string type)
 {
 	this->value = value;
-	this->type = "double";
+	this->type = type;
 	this->unknown = false;
+
+	this->initialized = true;
+}
+
+var::var(std::size_t size, std::string type)
+{
+	this->value = malloc(size);
+	this->type = type;
+	this->unknown = true;
+
+	this->initialized = true;
+}
+
+var::var(std::string name, std::size_t size, std::string type)
+{
+	this->varname = name;
+	this->value = malloc(size);
+	this->type = type;
+	this->unknown = true;
+
+	this->initialized = true;
+}
+
+var::~var()
+{
+	this->clear();
+}
+
+void var::clear()
+{
+	if (this->initialized)
+	{
+		free(this->value);
+		this->type.clear();
+	}
+	if (this->varname.size())
+	{
+		this->varname.clear();
+	}
+}
+
+void var::changetype(std::size_t size, std::string type)
+{
+	if (this->initialized)
+	{
+		free(this->value);
+	}
+	this->type = type;
+	this->value = malloc(size);
+}
+
+void var::set(var variable)
+{
+	if (this->initialized)
+	{
+		free(this->value);
+	}
+	
+	if (this->type.size() == 0)
+	{
+		this->type = variable.type;
+	}
+	
+	this->value = variable.value;
+}
+
+void var::operator=(var newvar)
+{
+	if (this->initialized)
+	{
+		if (this->type.compare(newvar.type) == 0)
+		{
+			free(this->value);
+			this->value = newvar.value;
+		}
+		else
+		{
+			std::cout << "Variable types are not the same" << std::endl;
+		}
+	}
+	else
+	{
+		//error: it wasn't initialized
+	}
 }

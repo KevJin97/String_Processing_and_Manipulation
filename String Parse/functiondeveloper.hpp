@@ -10,45 +10,6 @@
 #include "stringprocess.hpp"
 #include "MethodTypes.hpp"
 
-std::vector<std::size_t*> parenthesis_pairing(std::vector<std::size_t> open, std::vector<std::size_t> closed)	//read order of parenthesis, make sure to erase data later. New algorithm ready
-{
-	std::vector<std::size_t*> paired;
-	std::size_t* openclose;
-	bool* used = new bool[closed.size()];
-
-	for (std::size_t index = 0; index < closed.size(); index++)	//initialize used
-	{
-		used[index] = false;
-	}
-
-	if (open.size() == closed.size() && open.size() != 0)
-	{
-		std::size_t index = 0;
-		while (index < open.size())
-		{
-			std::size_t sift = 0;
-			openclose = new std::size_t[2];
-			openclose[0] = open[open.size() - ++index];
-
-			while (((used[sift] == true) || (open[open.size() - index] > closed[sift])) && (sift < closed.size()))
-			{
-				sift++;
-			}
-
-			openclose[1] = closed[sift];
-			used[sift] = true;
-
-			paired.push_back(openclose);
-		}
-		delete[] used;
-	}
-	else
-	{
-		//parenthesis aren't equal
-	}
-	return paired;
-}
-
 //TODO: create a natural language subroutine that inherits from this one
 //Subroutine takes instruction sets in Method and processes it
 class Subroutine
@@ -65,11 +26,14 @@ public:
 	Subroutine(Functions* type);
 	~Subroutine();
 
+	std::size_t* parenthesis(std::vector<std::string>& command, std::size_t& startpoint, std::vector<var*>& variables, std::vector<var>& outputs);	//organizes when it hits a parenthesis
 	void define(Method& method);	//defines a new function
 	std::vector<var> run(std::vector<std::string> command);	//input complete command to run
 	var run_method(std::vector<std::string>& command, std::size_t& operatorlocation, Method& method);	//run the function
 	void erasevar(std::string& varname);	//erase the variable
-	bool isvariable(std::string& input, std::vector<var*>& varlist);	//check if it's on the variable list
+	std::size_t isvariable(std::string& input, std::vector<var*>& varlist);	//check if it's on the variable list, returns size of varlist if not found
+	bool isnumber(std::string& input);	//check if it's a number
+	//TODO: create a way to check if there's a string
 	bool isoperator(std::string& input);	//check if it's on operator list
 };
 
@@ -91,11 +55,56 @@ Subroutine::~Subroutine()
 	{
 		delete this->variable_list[i];
 	}
-	
+
 	for (std::map<std::string, Method>::iterator i = this->method_list.begin(); i != this->method_list.end(); i++)
 	{
 		this->method_list[i->first].clear();
-	}	
+	}
+}
+
+std::size_t* Subroutine::parenthesis(std::vector<std::string>& command, std::size_t& startpoint, std::vector<var*>& variables, std::vector<var>& outputs)
+{
+	std::size_t* startend = new std::size_t[2];
+	std::size_t count = 1;
+	std::size_t index = startpoint;
+	startend[0] = startpoint;
+	startend[1] = startpoint;
+
+	std::vector<std::string> newcommand;
+
+	while ((index < command.size()) || (count != 0))
+	{
+		if (command[index].compare("(") == 0)
+		{
+			count++;
+		}
+		else if (command[index].compare(")") == 0)
+		{
+			count--;
+		}
+		newcommand.push_back(command[index]);
+		index++;
+	}
+
+	if (count == 0)		//successful
+	{
+		startend[1] = --index;
+
+		var variable("OUT" + std::to_string(outputs.size()));
+		variable.set(this->execute(newcommand, variables).back());
+
+		outputs.push_back(variable);
+	}
+	else
+	{
+		std::cout << "Missing closing parenthesis" << std::endl;
+
+		var variable("OUT" + std::to_string(outputs.size()));
+		variable.changetype(sizeof(std::string), "ERROR");
+		outputs.push_back(variable);
+	}
+
+	return startend;
 }
 
 void Subroutine::define(Method& method)
@@ -117,147 +126,196 @@ std::vector<var> Subroutine::run(std::vector<std::string> command)
 
 std::vector<var> Subroutine::execute(std::vector<std::string>& command, std::vector<var*>& variables)
 {
-	std::vector<std::string>* p_command_mod = new std::vector<std::string>(command);
-	std::vector<std::string>* p_hold = p_command_mod;
-	std::vector<std::size_t> operatorlocations;
 	std::vector<var> outputs;
-	
+	std::vector<std::string>* p_command = new std::vector<std::string>;
+	std::vector<std::size_t> operatorlocation;
+	Method method;
+
 	//set-up
-	if (this->base->order.size() == 0)	//if there's no order, do this
+	if (this->base->order.size() == 0)	//if there is no order
 	{
 		for (std::size_t i = 0; i < command.size(); i++)
 		{
-			if (this->isoperator(command[i]))
+			if (command[i].compare("(") == 0)
 			{
-				operatorlocations.push_back(i);
+				std::size_t* locations = this->parenthesis(command, i, variables, outputs);
+				
+				if (locations[0] == locations[1])	//FAILURE
+				{
+					return outputs;
+				}
+				else
+				{
+					p_command->push_back(outputs.back().varname);
+					i = locations[1];
+					
+					delete[] locations;
+				}
 			}
-			else if (!this->isvariable(command[i], variables) && !var::isnumber(command[i]))
+			else if (command[i].compare(")") == 0)	//FAILURE
+			{
+				std::cout << "No matching opening parenthesis" << std::endl;
+				
+				var variable("OUT" + std::to_string(outputs.size()));
+				variable.changetype(sizeof(std::string), "ERROR");
+				outputs.push_back(variable);
+				
+				return outputs;
+			}		
+			else if (this->isoperator(command[i]) || this->base->isoperator(command[i]))
+			{
+				p_command->push_back(command[i]);
+
+				operatorlocation.push_back(p_command->size() - 1);
+			}
+			else if (!this->isnumber(command[i]) && (this->isvariable(command[i], variables) == variables.size()))
 			{
 				variables.push_back(new var(command[i]));
+				this->base->define_var(*variables.back());
+			}
+			else
+			{
+				p_command->push_back(command[i]);
 			}
 		}
 	}
 	else
 	{
-		std::vector<std::size_t> baseindex;
 		for (std::size_t i = 0; i < command.size(); i++)
 		{
-			if (this->method_list.count(command[i]) > 0)
+			if (command[i].compare("(") == 0)
 			{
-				operatorlocations.push_back(i);
+				std::size_t* locations = this->parenthesis(command, i, variables, outputs);
+
+				if (locations[0] == locations[1])	//FAILURE
+				{
+					return outputs;
+				}
+				else
+				{
+					p_command->push_back(outputs.back().varname);
+					i = locations[1];
+
+					delete[] locations;
+				}
 			}
-			else if (this->base->method_list.count(command[i]) > 0)
+			else if (command[i].compare(")") == 0)	//FAILURE
 			{
-				baseindex.push_back(i);
+				std::cout << "No matching opening parenthesis" << std::endl;
+
+				var variable("OUT" + std::to_string(outputs.size()));
+				variable.changetype(sizeof(std::string), "ERROR");
+				outputs.push_back(variable);
+
+				return outputs;
 			}
-			else if (!this->isvariable(command[i], variables) && !var::isnumber(command[i]))
+			else if (this->isoperator(command[i]))
+			{
+				p_command->push_back(command[i]);
+
+				operatorlocation.push_back(p_command->size() - 1);
+			}
+			else if (!this->isnumber(command[i]) && (this->isvariable(command[i], variables) == variables.size()))
 			{
 				variables.push_back(new var(command[i]));
+				this->base->define_var(*variables.back());
+			}
+			else
+			{
+				p_command->push_back(command[i]);
 			}
 		}
-		for (std::size_t i = 0; i < this->base->order.size(); i++)
+		for (std::size_t i = 0; i < p_command->size(); i++)
 		{
-			for (std::size_t j = 0; j < baseindex.size(); j++)
+			if (this->base->isoperator((*p_command)[i]))
 			{
-				if (this->base->order[i].compare(command[baseindex[j]]) == 0)
-				{
-					operatorlocations.push_back(baseindex[j]);
-				}
+				operatorlocation.push_back(i);
 			}
 		}
 	}
 
-	//below may possibly be integrated with the set-up later
-	outputs.resize(operatorlocations.size());
-
-	for (std::size_t i = 0; i < operatorlocations.size(); i++)	//run methods
+	for (std::size_t i = 0; i < operatorlocation.size(); i++)
 	{
-		Method method;
-		//set method
-		if (this->method_list.count((*p_command_mod)[operatorlocations[i]]) > 0)
-		{
-			method = this->method_list[(*p_command_mod)[operatorlocations[i]]];
-		}
-		else if (this->base->method_list.count((*p_command_mod)[operatorlocations[i]]) > 0)
-		{
-			method = this->base->method_list[(*p_command_mod)[operatorlocations[i]]];
-		}
-		
-		outputs[i] = "Out" + std::to_string(i);
+		//set methods
+		if (this->isoperator((*p_command)[operatorlocation[i]]))
+			{
+				method = this->method_list[(*p_command)[operatorlocation[i]]];
+			}
+		else if (this->base->isoperator((*p_command)[operatorlocation[i]]))
+			{
+				method = this->base->method_list[(*p_command)[operatorlocation[i]]];
+			}
 
-		for (std::size_t varloc, j = 0; j < method.input.size(); j++)	//set inputs, program safeties later
+		//set inputs
+		std::vector<var> var_strings;
+		for (std::size_t listloc, varlocation, j = 0; j < method.input.size(); j++)
 		{
-			varloc = operatorlocations[i] + method.relativelocations[j];
-			
-			if (this->isvariable((*p_command_mod)[varloc], variables))	//OPTIMIZE LATER
-			{
-				for (std::size_t k = 0; k < variables.size(); k++)
-				{
-					if (variables[k]->varname.compare((*p_command_mod)[varloc]) == 0)
-					{
-						delete method.input[j];
-						method.input[j] = variables[k];
-						break;
-					}
-				}
-			}
-			else if (this->isoperator((*p_command_mod)[varloc]))
-			{
+			varlocation = method.relativelocations[j] + operatorlocation[i];
 
-			}
-			else if (var::isnumber((*p_command_mod)[varloc]))
+			if ((listloc = this->isvariable((*p_command)[varlocation], variables)) != variables.size())
 			{
-				*method.input[j] = (*p_command_mod)[varloc];
+				var_strings.push_back(*variables[listloc]);
 			}
-			else    //outputs
+			else if (this->isnumber((*p_command)[varlocation]))
 			{
+				var variable("numstring");
+				variable.changetype(sizeof(std::string), "string");
+				var_strings.push_back(variable);
+
+				std::string* temp = (std::string*)variable.value;
+				*temp = (*p_command)[varlocation];
+			}
+			//else if (for string)
+			else
+			{
+				//if the result is a previously outputted value
 				for (std::size_t k = 0; k < outputs.size(); k++)
 				{
-					if (outputs[k].varname.compare((*p_command_mod)[varloc]) == 0)
+					if ((*p_command)[varlocation].compare(outputs[k].varname) == 0)
 					{
-						*method.input[j] = outputs[k];
+						var_strings.push_back(outputs[k]);
 						break;
 					}
 				}
 			}
 		}
+		std::vector<std::size_t> eraselater = this->base->set_methods(method, var_strings);	//convert inputted values into usable forms
 
-		outputs[i] = this->run_method(*p_command_mod, operatorlocations[i], method);	//get output
-		p_hold = new std::vector<std::string>;
+		outputs.push_back(var("OUT" + std::to_string(outputs.size())));	//name the output
+		outputs.back() = this->run_method(command, operatorlocation[i], method);	//actually run the function
 
-		for (std::size_t j = 0; j < p_command_mod->size(); j++)
+		//restructure command for next iteration
+		std::vector<std::string>* hold = p_command;
+		p_command = new std::vector<std::string>;
+		for (std::size_t j = 0; j < hold->size(); j++)
 		{
-			if (j == operatorlocations[i] - method.operatorlocation)	//shift over locations and add the output
+			if (j == (operatorlocation[i] - method.operatorlocation))
 			{
-				p_hold->push_back(outputs[i].varname);
-				for (std::size_t k = i + 1; k < operatorlocations.size(); k++)	//move all remaining locations over
+				p_command->push_back(outputs.back().varname);
+				for (std::size_t k = i + 1; k < operatorlocation.size(); k++)	//move all remaining locations over
 				{
-					if (operatorlocations[k] > operatorlocations[i])
+					if (operatorlocation[k] > operatorlocation[i])
 					{
-						operatorlocations[k] -= method.syntax.size() - 1;
+						operatorlocation[k] -= method.syntax.size() - 1;
 					}
 				}
 				j += method.syntax.size() - 1;
 			}
 			else
 			{
-				p_hold->push_back((*p_command_mod)[j]);
+				p_command->push_back((*hold)[j]);
 			}
 		}
-		
-		delete p_command_mod;
-		p_command_mod = p_hold;
-		for (std::size_t i = 0; i < method.input.size(); i++)
+
+		//deallocate
+		delete hold;
+		for (std::size_t i = 0; i < eraselater.size(); i++)
 		{
-			if (!this->isvariable(method.input[i]->varname, variables))
-			{
-				delete method.input[i];
-			}
+			delete method.input[eraselater[i]];
 		}
+		method.clear();
 	}
-
-	delete p_command_mod;
-
+	
 	return outputs;
 }
 
@@ -302,22 +360,41 @@ void Subroutine::erasevar(std::string& varname)
 	}
 }
 
-bool Subroutine::isvariable(std::string& input, std::vector<var*>& varlist)
+std::size_t Subroutine::isvariable(std::string& input, std::vector<var*>& varlist)
 {
 	for (std::size_t i = 0; i < varlist.size(); i++)
 	{
 		if (varlist[i]->varname.compare(input) == 0)
 		{
-			return true;
+			return i;
 		}
 	}
 	
-	return false;
+	return varlist.size();
+}
+
+bool Subroutine::isnumber(std::string& input)
+{
+	if (input.size() > 0)
+	{
+		for (std::size_t i = 0; i < input.size(); i++)
+		{
+			if (('0' > input[i]) || (input[i] > '9') && ((input[i] != '.') || (input[i] != 'e') || (input[i] != 'E')))
+			{
+				return false;
+			}
+			return true;
+		}
+	}
+	else
+	{
+		return false;
+	}
 }
 
 bool Subroutine::isoperator(std::string& input)
 {
-	if ((this->method_list.count(input) > 0) || (this->base->method_list.count(input) > 0))
+	if (this->method_list.count(input) > 0)
 	{
 		return true;
 	}
