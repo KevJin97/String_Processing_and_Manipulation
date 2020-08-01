@@ -29,8 +29,7 @@ public:
 	std::size_t size();	//return size of parsed list
 	void replace(std::string carray, std::string replacement);	//replace any instance of inputted string with replacement in parsed list
 	void isolate(std::string isolatestring);	//parse inputted string into its own array space
-	void isolate(std::vector<std::string> isolatelist);	//parse list of strings into its own array space
-	virtual void getinput();	//duh (and then sorts into parsed form)
+	void getinput();	//duh (and then sorts into parsed form)
 	void remove(std::string string2remove);	//remove a string from parsed
 	void remove(std::vector<std::string> list);	//remove from a list of strings from parsed
 	void push_back(std::string string2add);	//push_back string after parsing
@@ -365,14 +364,6 @@ void CommandString::isolate(std::string isolatestring)	//MAYBE USE SUBSTR?
 
 	this->parsed.clear();
 	this->parsed = newparsed;
-}
-
-void CommandString::isolate(std::vector<std::string> isolatelist)
-{
-	for (std::size_t i = 0; i < isolatelist.size(); i++)
-	{
-		this->isolate(isolatelist[i]);
-	}
 }
 
 void CommandString::getinput()

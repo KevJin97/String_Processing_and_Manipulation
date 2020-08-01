@@ -71,6 +71,8 @@ public:
 	void erasevar(std::string& varname);	//erase the variable
 	bool isvariable(std::string& input, std::vector<var*>& varlist);	//check if it's on the variable list
 	bool isoperator(std::string& input);	//check if it's on operator list
+
+	void test() {}
 };
 
 Subroutine::Subroutine()
