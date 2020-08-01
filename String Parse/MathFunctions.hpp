@@ -13,6 +13,7 @@ private:
 	
 protected:
 	//Pretty self-explanatory
+	//Method parenthesis(std::vector<std::string> parsed, std::size_t open, std::size_t close);
 	void equate(std::vector<var*>& inputs, var& output);
 	void parenthesis(std::vector<var*>& inputs, var& output);
 	void power(std::vector<var*>& inputs, var& output);
@@ -42,6 +43,8 @@ MathFunctions::MathFunctions()
 {
 	this->order =
 	{
+		"(",
+		")",
 		"exp",
 		"cos",
 		"sin",
