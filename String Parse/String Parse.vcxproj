@@ -155,7 +155,6 @@
     <ClInclude Include="FileString.hpp" />
     <ClInclude Include="functiondeveloper.hpp" />
     <ClInclude Include="Functions.hpp" />
-    <ClInclude Include="WINDOWSioFunctions.hpp" />
     <ClInclude Include="MathFunctions.hpp" />
     <ClInclude Include="MathString.hpp" />
     <ClInclude Include="Method.hpp" />

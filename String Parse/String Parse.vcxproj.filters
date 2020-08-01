@@ -53,8 +53,5 @@
     <ClInclude Include="Var.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WINDOWSioFunctions.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
