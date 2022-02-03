@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 
-#include "stringprocess.hpp"
+#include "CommandString.hpp"
 #include "MethodTypes.hpp"
 #include "functiondeveloper.hpp"
 

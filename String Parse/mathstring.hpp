@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "stringprocess.hpp"
+#include "CommandString.hpp"
 #include "functiondeveloper.hpp"
 
 class MathString : public CommandString

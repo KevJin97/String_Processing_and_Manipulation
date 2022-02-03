@@ -1,0 +1,7 @@
+﻿  String Parse.cpp
+C:\Users\Kjin1\Documents\GitHub\String_Processing_and_Manipulation\String Parse\Method.hpp(61,66): warning C4267: 'argument': conversion from 'size_t' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+  String Parse.vcxproj -> C:\Users\Kjin1\Documents\GitHub\String_Processing_and_Manipulation\x64\Debug\String Parse.exe

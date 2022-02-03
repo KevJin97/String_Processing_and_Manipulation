@@ -7,7 +7,7 @@
 #include <utility>
 
 #include "Var.hpp"
-#include "stringprocess.hpp"
+#include "CommandString.hpp"
 #include "MethodTypes.hpp"
 
 std::vector<std::size_t*> parenthesis_pairing(std::vector<std::size_t> open, std::vector<std::size_t> closed)	//read order of parenthesis, make sure to erase data later. New algorithm ready
